@@ -5,7 +5,6 @@ import {
   Brain,
   ChevronLeft,
   ChevronRight,
-
   Cuboid,
   FlaskConical,
   Mail,
@@ -218,14 +217,14 @@ const fadeInUp = {
 };
 
 const sectionHeading = (before: string, highlight: string) => (
-  <h3 className="text-[30px] font-semibold leading-[1.1] tracking-[-0.02em] text-[#0e2433] md:text-[42px]">
+  <h3 className="text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0e2433] sm:text-[26px] md:text-[42px]">
     {before} <span className="text-[#1b6ea1]">{highlight}</span>
   </h3>
 );
 
 function CardButton({ label }: { label: string }) {
   return (
-    <button className="mt-4 flex h-10 w-full items-center justify-center gap-2 rounded-full border border-[#2f7eaa] text-[14px] font-medium text-[#2f7eaa] transition hover:bg-[#2f7eaa] hover:text-white">
+    <button className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-full border border-[#2f7eaa] text-[13px] font-medium text-[#2f7eaa] transition hover:bg-[#2f7eaa] hover:text-white sm:mt-4 sm:text-[14px]">
       <ShoppingCart className="h-4 w-4" /> {label}
     </button>
   );
@@ -245,10 +244,10 @@ function ProductCard({ product }: ProductCardProps) {
   return (
     <motion.article
       whileHover={{ y: -4, boxShadow: "0 14px 28px rgba(18,45,63,0.08)" }}
-      className="relative rounded-[12px] border border-[#eef2f5] bg-white p-3 shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
+      className="relative rounded-[12px] border border-[#eef2f5] bg-white p-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-3"
     >
       {product.outOfStock && (
-        <span className="absolute right-4 top-4 z-10 rounded-full bg-red-600 px-3 py-1 text-[10px] font-medium text-white">
+        <span className="absolute right-3 top-3 z-10 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-medium text-white">
           Out of Stock
         </span>
       )}
@@ -257,15 +256,15 @@ function ProductCard({ product }: ProductCardProps) {
         <img
           src={product.image}
           alt={product.name}
-          className="h-[220px] w-full object-cover"
+          className="h-[160px] w-full object-cover sm:h-[220px]"
         />
       </div>
 
-      <p className="mt-4 min-h-[54px] text-center text-[16px] leading-[1.35] font-semibold text-[#1a6d9c]">
+      <p className="mt-3 min-h-[52px] text-center text-[14px] leading-[1.3] font-semibold text-[#1a6d9c] sm:mt-4 sm:min-h-[54px] sm:text-[16px]">
         {product.name}
       </p>
 
-      <p className="mt-2 text-center text-[15px] font-semibold text-[#0f2533]">
+      <p className="mt-2 text-center text-[14px] font-semibold text-[#0f2533] sm:text-[15px]">
         {product.price}
       </p>
 
@@ -285,13 +284,13 @@ export default function App() {
   return (
     <div className="bg-white text-[#0f2533]">
       <header className="border-b border-[#e7edf3] bg-white">
-        <div className="mx-auto flex h-[78px] w-full max-w-[1280px] items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[72px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[78px] sm:px-6 lg:px-8">
           <a href="#" className="flex items-center">
             <img
               width="264"
               height="57"
               src="/logo.svg"
-              className="h-auto w-[180px] sm:w-[210px] md:w-[240px]"
+              className="h-auto w-[150px] sm:w-[180px] md:w-[240px]"
               alt="Modern Aminos"
             />
           </a>
@@ -304,15 +303,19 @@ export default function App() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
-            <button className="grid h-9 w-9 place-items-center text-[#2e7ca8]">
-             <a className="elementor-icon" href="/my-account">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 11.6C9.20002 11.6 6.90002 9.30002 6.90002 6.50002C6.90002 3.70002 9.20002 1.40002 12 1.40002C14.8 1.40002 17.1 3.70002 17.1 6.50002C17.1 9.30002 14.8 11.6 12 11.6ZM12 2.60002C9.80002 2.60002 8.10002 4.30002 8.10002 6.50002C8.10002 8.70002 9.80002 10.4 12 10.4C14.2 10.4 15.9 8.70002 15.9 6.50002C15.9 4.30002 14.2 2.60002 12 2.60002Z" fill="#116190"></path><path d="M19 22.6H5.00002C3.60002 22.6 2.40002 21.4 2.40002 20C2.40002 16.4 5.40002 13.4 9.00002 13.4H15C18.6 13.4 21.6 16.4 21.6 20C21.6 21.4 20.4 22.6 19 22.6ZM9.00002 14.6C6.00002 14.6 3.60002 17 3.60002 20C3.60002 20.8 4.20002 21.4 5.00002 21.4H19C19.8 21.4 20.4 20.8 20.4 20C20.4 17 18 14.6 15 14.6H9.00002Z" fill="#116190"></path></svg>			</a>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button className="grid h-8 w-8 place-items-center text-[#2e7ca8] sm:h-9 sm:w-9">
+              <a className="elementor-icon" href="/my-account">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 11.6C9.20002 11.6 6.90002 9.30002 6.90002 6.50002C6.90002 3.70002 9.20002 1.40002 12 1.40002C14.8 1.40002 17.1 3.70002 17.1 6.50002C17.1 9.30002 14.8 11.6 12 11.6ZM12 2.60002C9.80002 2.60002 8.10002 4.30002 8.10002 6.50002C8.10002 8.70002 9.80002 10.4 12 10.4C14.2 10.4 15.9 8.70002 15.9 6.50002C15.9 4.30002 14.2 2.60002 12 2.60002Z" fill="#116190"></path>
+                  <path d="M19 22.6H5.00002C3.60002 22.6 2.40002 21.4 2.40002 20C2.40002 16.4 5.40002 13.4 9.00002 13.4H15C18.6 13.4 21.6 16.4 21.6 20C21.6 21.4 20.4 22.6 19 22.6ZM9.00002 14.6C6.00002 14.6 3.60002 17 3.60002 20C3.60002 20.8 4.20002 21.4 5.00002 21.4H19C19.8 21.4 20.4 20.8 20.4 20C20.4 17 18 14.6 15 14.6H9.00002Z" fill="#116190"></path>
+                </svg>
+              </a>
             </button>
 
             <button
               onClick={() => setMobileMenu(true)}
-              className="grid h-9 w-9 place-items-center text-[#2e7ca8] md:hidden"
+              className="grid h-8 w-8 place-items-center text-[#2e7ca8] md:hidden sm:h-9 sm:w-9"
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -346,35 +349,35 @@ export default function App() {
       )}
 
       <main>
-        <section className="bg-[#083553] py-12 text-white md:py-16">
+        <section className="bg-[#083553] py-10 text-white sm:py-12 md:py-16">
           <motion.div
             {...fadeInUp}
             className="mx-auto grid w-full max-w-[1280px] gap-8 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
           >
             <div>
-              <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[13px] font-medium text-white">
+              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[12px] font-medium text-white sm:mb-5 sm:text-[13px]">
                 <Star className="h-4 w-4 fill-[#d5a73f] text-[#d5a73f]" />
                 {pageData.hero.badge}
               </p>
 
-              <h1 className="max-w-[520px] text-[36px] leading-[1.1] font-semibold tracking-[-0.03em] md:text-[56px]">
+              <h1 className="max-w-[520px] text-[30px] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[36px] md:text-[56px]">
                 {pageData.hero.title}
               </h1>
 
-              <h2 className="mt-3 max-w-[620px] text-[30px] leading-[1.12] font-semibold tracking-[-0.03em] text-[#d8a741] md:text-[44px]">
+              <h2 className="mt-3 max-w-[620px] text-[24px] leading-[1.12] font-semibold tracking-[-0.03em] text-[#d8a741] sm:text-[30px] md:text-[44px]">
                 {pageData.hero.subtitle}
               </h2>
 
-              <p className="mt-6 max-w-[620px] text-[16px] leading-7 text-[#e5eef5] md:text-[18px]">
+              <p className="mt-5 max-w-[620px] text-[14px] leading-7 text-[#e5eef5] sm:mt-6 sm:text-[16px] md:text-[18px]">
                 {pageData.hero.description}
               </p>
 
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                <button className="flex h-12 items-center justify-center gap-2 rounded-[10px] bg-[#1f79b0] px-7 text-[15px] font-semibold transition hover:bg-[#186c9e]">
+              <div className="mt-6 flex flex-col gap-3 sm:mt-7 sm:flex-row">
+                <button className="flex h-11 items-center justify-center gap-2 rounded-[10px] bg-[#1f79b0] px-6 text-[14px] font-semibold transition hover:bg-[#186c9e] sm:h-12 sm:px-7 sm:text-[15px]">
                   {pageData.hero.actions[0]}
                   <ArrowRight className="h-4 w-4" />
                 </button>
-                <button className="flex h-12 items-center justify-center rounded-[10px] border border-[#2e84b7] px-7 text-[15px] font-semibold transition hover:bg-white/5">
+                <button className="flex h-11 items-center justify-center rounded-[10px] border border-[#2e84b7] px-6 text-[14px] font-semibold transition hover:bg-white/5 sm:h-12 sm:px-7 sm:text-[15px]">
                   {pageData.hero.actions[1]}
                 </button>
               </div>
@@ -387,10 +390,10 @@ export default function App() {
                     <Star key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </p>
-                <p className="text-[16px] leading-7 italic md:text-[18px]">
+                <p className="text-[14px] leading-7 italic sm:text-[16px] md:text-[18px]">
                   “{pageData.hero.quote}”
                 </p>
-                <p className="mt-4 text-[16px] font-semibold">— {pageData.hero.quoteAuthor}</p>
+                <p className="mt-4 text-[14px] font-semibold sm:text-[16px]">— {pageData.hero.quoteAuthor}</p>
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -401,8 +404,8 @@ export default function App() {
                     className="rounded-xl border border-white/15 bg-white/10 p-4"
                   >
                     <item.icon className="mb-2 h-5 w-5 text-[#d6a740]" />
-                    <p className="text-[20px] font-semibold text-[#d6a740]">{item.label}</p>
-                    <p className="mt-1 text-[12px] leading-5 text-[#c0d1de]">{item.sub}</p>
+                    <p className="text-[18px] font-semibold text-[#d6a740] sm:text-[20px]">{item.label}</p>
+                    <p className="mt-1 text-[11px] leading-5 text-[#c0d1de] sm:text-[12px]">{item.sub}</p>
                   </motion.div>
                 ))}
               </div>
@@ -414,14 +417,14 @@ export default function App() {
           <div className="mx-auto grid w-full max-w-[1280px] gap-5 px-4 sm:px-6 md:grid-cols-2 xl:grid-cols-4 lg:px-8">
             {pageData.trustStrip.map((item) => (
               <div key={item.title} className="flex items-center gap-4">
-                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[#dfebf5] text-[#2d7ca8]">
-                  <item.icon className="h-6 w-6" />
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#dfebf5] text-[#2d7ca8] sm:h-14 sm:w-14">
+                  <item.icon className="h-5 w-5 sm:h-6 sm:w-6" />
                 </div>
                 <div>
-                  <p className="text-[18px] font-semibold leading-[1.15] text-[#0f2533]">
+                  <p className="text-[16px] font-semibold leading-[1.15] text-[#0f2533] sm:text-[18px]">
                     {item.title}
                   </p>
-                  <p className="mt-1 text-[12px] leading-5 text-[#748392]">{item.text}</p>
+                  <p className="mt-1 text-[11px] leading-5 text-[#748392] sm:text-[12px]">{item.text}</p>
                 </div>
               </div>
             ))}
@@ -430,17 +433,17 @@ export default function App() {
 
         <motion.section
           {...fadeInUp}
-          className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 sm:py-12 lg:px-8"
         >
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
             {sectionHeading("Shop by", "Category")}
-            <button className="h-11 rounded-full bg-[#1b6ea1] px-7 text-[14px] font-semibold text-white md:px-9">
+            <button className="h-10 rounded-full bg-[#1b6ea1] px-5 text-[13px] font-semibold text-white sm:h-11 sm:px-7 sm:text-[14px] md:px-9">
               See All Products
             </button>
           </div>
 
           <div className="relative">
-            <button className="absolute left-[-18px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+            <button className="absolute left-[-12px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
               <ChevronLeft className="h-5 w-5" />
             </button>
 
@@ -448,22 +451,24 @@ export default function App() {
               {pageData.categories.map((category) => (
                 <div
                   key={category.title}
-                  className={`rounded-[14px] border px-4 py-5 text-center transition ${
+                  className={`rounded-[14px] border px-3 py-4 text-center transition sm:px-4 sm:py-5 ${
                     category.active
                       ? "border-[#2876a7] bg-[#edf4fa]"
                       : "border-[#d7e0e9] bg-white hover:border-[#2876a7]/40"
                   }`}
                 >
-                  <div className="mx-auto mb-4 grid h-[86px] w-[86px] place-items-center rounded-[14px] bg-[#f4f6f8] text-[#2f7ea9]">
-                    <category.icon className="h-8 w-8" />
+                  <div className="mx-auto mb-3 grid h-[72px] w-[72px] place-items-center rounded-[12px] bg-[#f4f6f8] text-[#2f7ea9] sm:mb-4 sm:h-[86px] sm:w-[86px] sm:rounded-[14px]">
+                    <category.icon className="h-7 w-7 sm:h-8 sm:w-8" />
                   </div>
-                  <p className="text-[14px] font-medium text-[#1f6f9f]">{category.title}</p>
-                  <p className="mt-1 text-[11px] text-[#8a98a6]">{category.count}</p>
+                  <p className="text-[13px] font-medium leading-5 text-[#1f6f9f] sm:text-[14px]">
+                    {category.title}
+                  </p>
+                  <p className="mt-1 text-[10px] text-[#8a98a6] sm:text-[11px]">{category.count}</p>
                 </div>
               ))}
             </div>
 
-            <button className="absolute right-[-18px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+            <button className="absolute right-[-12px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
               <ChevronRight className="h-5 w-5" />
             </button>
           </div>
@@ -473,7 +478,7 @@ export default function App() {
           {...fadeInUp}
           className="mx-auto w-full max-w-[1280px] px-4 pb-8 sm:px-6 lg:px-8"
         >
-          <div className="grid gap-5 lg:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-3">
             {[
               {
                 badge: "HPLC",
@@ -491,14 +496,18 @@ export default function App() {
                 text: "Each product is tied to a batch number for quick verification and repeatable re-orders.",
               },
             ].map((card) => (
-              <div key={card.title} className="rounded-[18px] border border-[#d6e3ef] bg-white p-6">
-                <div className="mb-5 flex justify-end">
-                  <span className="rounded-md bg-[#edf6fd] px-3 py-[6px] text-[12px] font-medium text-[#12608E]">
+              <div key={card.title} className="rounded-[18px] border border-[#d6e3ef] bg-white p-5 sm:p-6">
+                <div className="mb-4 flex justify-end sm:mb-5">
+                  <span className="rounded-md bg-[#edf6fd] px-3 py-[6px] text-[11px] font-medium text-[#12608E] sm:text-[12px]">
                     {card.badge}
                   </span>
                 </div>
-                <p className="text-[24px] font-semibold leading-[1.2] text-[#d1a13f]">{card.title}</p>
-                <p className="mt-4 text-[14px] leading-7 text-[#7b8894]">{card.text}</p>
+                <p className="text-[20px] font-semibold leading-[1.2] text-[#d1a13f] sm:text-[24px]">
+                  {card.title}
+                </p>
+                <p className="mt-3 text-[13px] leading-6 text-[#7b8894] sm:mt-4 sm:text-[14px] sm:leading-7">
+                  {card.text}
+                </p>
               </div>
             ))}
           </div>
@@ -508,111 +517,111 @@ export default function App() {
           {...fadeInUp}
           className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
         >
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
             {sectionHeading("Our Best", "Selling Products")}
-            <button className="h-11 rounded-full bg-[#1b6ea1] px-8 text-[14px] font-semibold text-white">
+            <button className="h-10 rounded-full bg-[#1b6ea1] px-5 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
               View All
             </button>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
             {pageData.products.map((product) => (
               <ProductCard key={product.name} product={product} />
             ))}
           </div>
         </motion.section>
 
-        <motion.section {...fadeInUp} className="py-16">
+        <motion.section {...fadeInUp} className="py-12 sm:py-16">
           <div className="mx-auto grid w-full max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div>
-              <h3 className="max-w-[520px] text-[32px] leading-[1.15] font-semibold tracking-[-0.02em] md:text-[44px]">
+              <h3 className="max-w-[520px] text-[24px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[30px] md:text-[44px]">
                 Scan <span className="text-[#d1a13f]">The QR Code</span> On Your Vial Label
               </h3>
-              <p className="mt-6 max-w-[620px] text-[15px] leading-7 text-[#7b8894] md:text-[16px]">
+              <p className="mt-5 max-w-[620px] text-[14px] leading-7 text-[#7b8894] sm:mt-6 sm:text-[16px]">
                 {pageData.qrSection.description}
               </p>
-              <button className="mt-7 flex h-11 items-center gap-2 rounded-full bg-[#1b6ea1] px-7 text-[14px] font-semibold text-white">
+              <button className="mt-6 flex h-10 items-center gap-2 rounded-full bg-[#1b6ea1] px-5 text-[13px] font-semibold text-white sm:h-11 sm:px-7 sm:text-[14px]">
                 {pageData.qrSection.action}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="rounded-[22px] bg-[#f6f6f6] p-5 md:p-6">
+            <div className="rounded-[20px] bg-[#f6f6f6] p-4 sm:p-6">
               <img
                 src={pageData.qrSection.image}
                 alt="QR code section"
-                className="mx-auto w-full max-w-[470px]"
+                className="mx-auto w-full max-w-[420px] sm:max-w-[470px]"
               />
             </div>
           </div>
         </motion.section>
 
-        <motion.section {...fadeInUp} className="bg-[#eff4f7] py-16">
+        <motion.section {...fadeInUp} className="bg-[#eff4f7] py-14 sm:py-16">
           <div className="mx-auto w-full max-w-[1280px] px-4 text-center sm:px-6 lg:px-8">
-            <div className="inline-flex rounded-full bg-[#f6eedc] px-5 py-2 text-sm font-medium text-[#d1a13f]">
+            <div className="inline-flex rounded-full bg-[#f6eedc] px-4 py-2 text-[12px] font-medium text-[#d1a13f] sm:px-5 sm:text-sm">
               Premium Quality – 98%+ Purity Guaranteed
             </div>
 
-            <h3 className="mt-8 text-[34px] font-semibold leading-[1.1] tracking-[-0.03em] md:text-[50px]">
+            <h3 className="mt-7 text-[24px] font-semibold leading-[1.15] tracking-[-0.03em] sm:text-[30px] md:text-[50px]">
               <span className="text-[#1b6ea1]">Verified. Transparent.</span>{" "}
               <span className="text-[#d1a13f]">Trusted.</span>
             </h3>
 
-            <p className="mx-auto mt-5 max-w-[720px] text-[16px] leading-7 text-[#0f2533]">
+            <p className="mx-auto mt-4 max-w-[720px] text-[14px] leading-7 text-[#0f2533] sm:text-[16px]">
               Modern Aminos publishes full lab verification and batch traceability so you can research with confidence.
             </p>
 
-            <div className="mx-auto mt-10 grid max-w-[760px] gap-4 rounded-[16px] bg-[#0d4e79] p-5 text-left sm:grid-cols-3">
+            <div className="mx-auto mt-8 grid max-w-[760px] gap-4 rounded-[16px] bg-[#0d4e79] p-4 text-left sm:mt-10 sm:p-5 sm:grid-cols-3">
               {[
                 { icon: FlaskConical, title: "500+", text: "COAs Published" },
                 { icon: Package, title: "50k+", text: "Orders Shipped" },
                 { icon: Star, title: "4.9/5", text: "Trustpilot Rating" },
               ].map((stat) => (
                 <div key={stat.title} className="flex items-center gap-3">
-                  <div className="grid h-11 w-11 place-items-center rounded-md bg-white/10">
+                  <div className="grid h-10 w-10 place-items-center rounded-md bg-white/10 sm:h-11 sm:w-11">
                     <stat.icon className={`h-5 w-5 ${stat.title === "4.9/5" ? "text-[#d1a13f]" : "text-white"}`} />
                   </div>
                   <div>
-                    <p className="text-[20px] font-bold text-white">{stat.title}</p>
-                    <p className="text-[12px] text-white/75">{stat.text}</p>
+                    <p className="text-[18px] font-bold text-white sm:text-[20px]">{stat.title}</p>
+                    <p className="text-[11px] text-white/75 sm:text-[12px]">{stat.text}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <button className="mx-auto mt-8 flex h-11 items-center gap-2 rounded-full bg-[#1b6ea1] px-7 text-[14px] font-semibold text-white">
+            <button className="mx-auto mt-7 flex h-10 items-center gap-2 rounded-full bg-[#1b6ea1] px-5 text-[13px] font-semibold text-white sm:mt-8 sm:h-11 sm:px-7 sm:text-[14px]">
               Browse All Products
               <ArrowRight className="h-4 w-4" />
             </button>
 
-            <div className="mt-12 grid gap-5 lg:grid-cols-3">
+            <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-3">
               {pageData.testimonials.map((item) => (
                 <div
                   key={item.name}
-                  className="rounded-[16px] border border-[#dbe4ec] bg-white p-5 text-left"
+                  className="rounded-[16px] border border-[#dbe4ec] bg-white p-4 text-left sm:p-5"
                 >
                   <div className="mb-4 flex gap-1 text-[#d1a13f]">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="h-4 w-4 fill-current" />
                     ))}
                   </div>
-                  <p className="min-h-[132px] text-[14px] leading-7 italic text-[#687681]">
+                  <p className="min-h-[120px] text-[13px] leading-6 italic text-[#687681] sm:min-h-[132px] sm:text-[14px] sm:leading-7">
                     “{item.quote}”
                   </p>
                   <div className="mt-5 flex items-center gap-4">
-                    <div className="grid h-11 w-11 place-items-center rounded-full bg-[#eef4f8] text-[16px] font-semibold text-[#1b6ea1]">
+                    <div className="grid h-10 w-10 place-items-center rounded-full bg-[#eef4f8] text-[14px] font-semibold text-[#1b6ea1] sm:h-11 sm:w-11 sm:text-[16px]">
                       {item.initials}
                     </div>
                     <div>
-                      <p className="text-[14px] font-semibold text-[#1b6ea1]">{item.name}</p>
-                      <p className="text-[12px] text-[#8a97a3]">{item.role}</p>
+                      <p className="text-[13px] font-semibold text-[#1b6ea1] sm:text-[14px]">{item.name}</p>
+                      <p className="text-[11px] text-[#8a97a3] sm:text-[12px]">{item.role}</p>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-2 text-center text-[14px]">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-center text-[12px] sm:mt-8 sm:text-[14px]">
               <Star className="h-5 w-5 fill-[#01BC78] text-[#01BC78]" />
               <span className="font-semibold text-[#01BC78]">Trustpilot</span>
               <span className="font-semibold text-[#08202C]">4.9 / 5</span>
@@ -628,17 +637,17 @@ export default function App() {
           <motion.section
             key={section.highlight}
             {...fadeInUp}
-            className={`${section.bg} py-12`}
+            className={`${section.bg} py-10 sm:py-12`}
           >
             <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
-              <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
                 {sectionHeading(section.title, section.highlight)}
-                <button className="h-11 rounded-full bg-[#1b6ea1] px-8 text-[14px] font-semibold text-white">
+                <button className="h-10 rounded-full bg-[#1b6ea1] px-5 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
                   View All
                 </button>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
                 {section.items.map((product) => (
                   <ProductCard key={product.name} product={product} />
                 ))}
@@ -649,11 +658,11 @@ export default function App() {
 
         <motion.section
           {...fadeInUp}
-          className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
         >
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-6 flex items-center justify-between gap-4 sm:mb-8">
             {sectionHeading("Frequently", "Asked Questions")}
-            <button className="h-10 rounded-full bg-[#1b6ea1] px-7 text-[13px] font-semibold text-white">
+            <button className="h-9 rounded-full bg-[#1b6ea1] px-5 text-[12px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[13px]">
               View All
             </button>
           </div>
@@ -665,7 +674,7 @@ export default function App() {
                 <div key={faq.question}>
                   <button
                     onClick={() => setFaqOpen(open ? -1 : index)}
-                    className={`flex min-h-[64px] w-full items-center justify-between rounded-[999px] px-6 text-left text-[15px] font-semibold transition md:px-8 ${
+                    className={`flex min-h-[58px] w-full items-center justify-between rounded-[999px] px-5 text-left text-[14px] font-semibold transition sm:min-h-[64px] sm:px-6 sm:text-[15px] md:px-8 ${
                       open ? "bg-[#1b6ea1] text-white" : "bg-[#deebf5] text-[#23406d]"
                     }`}
                   >
@@ -674,7 +683,7 @@ export default function App() {
                   </button>
 
                   {open && (
-                    <div className="mt-2 rounded-2xl border border-[#d9e0e7] bg-white px-6 py-5 text-[13px] leading-7 text-[#607080] md:px-7">
+                    <div className="mt-2 rounded-2xl border border-[#d9e0e7] bg-white px-5 py-4 text-[12px] leading-6 text-[#607080] sm:px-6 sm:py-5 sm:text-[13px] sm:leading-7 md:px-7">
                       {faq.answer}
                     </div>
                   )}
@@ -685,77 +694,77 @@ export default function App() {
         </motion.section>
       </main>
 
-<footer className="bg-[#123F5A] text-white">
-  <div className="mx-auto w-full max-w-[1280px] px-4 pt-16 pb-14 sm:px-6 lg:px-8">
-    <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr_1.2fr]">
-      <div>
-<a href="#" className="inline-flex items-center">
-  <img
-    src="/logo.svg"
-    alt="Modern Aminos"
-    className="w-[230px] brightness-0 invert md:w-[250px]"
-  />
-</a>
-        <p className="mt-7 max-w-[320px] text-[15px] leading-8 text-[#d4e2ed]">
-          Quality products and exceptional service are very important to us
-        </p>
-      </div>
+      <footer className="bg-[#123F5A] text-white">
+        <div className="mx-auto w-full max-w-[1280px] px-4 pt-14 pb-12 sm:px-6 sm:pt-16 sm:pb-14 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_1.2fr]">
+            <div>
+              <a href="#" className="inline-flex items-center">
+                <img
+                  src="/logo.svg"
+                  alt="Modern Aminos"
+                  className="w-[190px] brightness-0 invert sm:w-[230px] md:w-[250px]"
+                />
+              </a>
+              <p className="mt-6 max-w-[320px] text-[14px] leading-7 text-white/95 sm:mt-7 sm:text-[15px] sm:leading-8">
+                Quality products and exceptional service are very important to us
+              </p>
+            </div>
 
-      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-1">
-        <div>
-          <p className="text-[22px] font-semibold">Contact Us</p>
-          <p className="mt-4 flex items-center gap-2 text-[15px] text-[#d7e6f1]">
-            <Mail className="h-4 w-4" /> cs@modernaminos.com
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-1 lg:gap-10">
+              <div>
+                <p className="text-[20px] font-semibold sm:text-[22px]">Contact Us</p>
+                <p className="mt-4 flex items-center gap-2 text-[14px] text-white/95 sm:text-[15px]">
+                  <Mail className="h-4 w-4" /> cs@modernaminos.com
+                </p>
+              </div>
+
+              <div>
+                <p className="text-[20px] font-semibold sm:text-[22px]">Quick Links</p>
+                {pageData.nav.map((item) => (
+                  <p key={item} className="mt-3 text-[14px] text-white/95 sm:text-[15px]">
+                    {item}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[20px] font-semibold sm:text-[22px]">Subscribe now to save 15%</p>
+              <p className="mt-4 max-w-[410px] text-[14px] leading-7 text-white/95 sm:text-[15px] sm:leading-8">
+                Subscribe and get exclusive updates straight to your inbox for free
+              </p>
+              <div className="mt-6 flex h-12 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9] sm:h-14">
+                <input
+                  className="w-full bg-transparent px-4 text-[14px] placeholder:text-[#aac4d6] focus:outline-none sm:px-6 sm:text-[15px]"
+                  placeholder="Email"
+                />
+                <button className="flex items-center gap-2 bg-white px-5 text-[14px] font-semibold text-[#1a4360] sm:px-6 sm:text-[15px]">
+                  <ArrowRight className="h-4 w-4" /> Send
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <p className="mx-auto mt-12 max-w-[1180px] text-center text-[12px] leading-7 text-white/90 sm:mt-14 sm:text-[14px] sm:leading-9">
+            Please be advised: All compounds and research materials provided by Modern Aminos are strictly for laboratory and research use only. They are not approved for human consumption by the Food and Drug Administration (FDA). These products should not be used for any form of in vivo experimentation or for any other non-laboratory purpose. By purchasing these products, you acknowledge that they will be used exclusively within a controlled and qualified research environment.
           </p>
+
+          <div className="mt-10 flex flex-col items-center justify-between gap-5 text-[12px] text-white/90 sm:mt-14 sm:gap-6 sm:text-[13px] md:text-[14px] lg:flex-row">
+            <p>Copyright 2026, All Rights Reserved.</p>
+            <div className="flex flex-wrap items-center justify-center gap-5 sm:gap-8">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Refund Policy</a>
+              <a href="#">Terms & Conditions</a>
+              <a href="#">Terms of Service</a>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <p className="text-[22px] font-semibold">Quick Links</p>
-          {pageData.nav.map((item) => (
-            <p key={item} className="mt-3 text-[15px] text-[#d7e6f1]">
-              {item}
-            </p>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <p className="text-[22px] font-semibold">Subscribe now to save 15%</p>
-        <p className="mt-4 max-w-[410px] text-[15px] leading-8 text-[#d8e7f1]">
-          Subscribe and get exclusive updates straight to your inbox for free
-        </p>
-        <div className="mt-6 flex h-14 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9]">
-          <input
-            className="w-full bg-transparent px-6 text-[15px] placeholder:text-[#aac4d6] focus:outline-none"
-            placeholder="Email"
-          />
-          <button className="flex items-center gap-2 bg-white px-6 text-[15px] font-semibold text-[#1a4360]">
-            <ArrowRight className="h-4 w-4" /> Send
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <p className="mx-auto mt-14 max-w-[1180px] text-center text-[14px] leading-9 text-[#d7e6f1]">
-      Please be advised: All compounds and research materials provided by Modern Aminos are strictly for laboratory and research use only. They are not approved for human consumption by the Food and Drug Administration (FDA). These products should not be used for any form of in vivo experimentation or for any other non-laboratory purpose. By purchasing these products, you acknowledge that they will be used exclusively within a controlled and qualified research environment.
-    </p>
-
-    <div className="mt-14 flex flex-col items-center justify-between gap-6 text-[13px] text-[#d7e6f1] md:text-[14px] lg:flex-row">
-      <p>Copyright 2026, All Rights Reserved.</p>
-      <div className="flex flex-wrap items-center justify-center gap-8">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Refund Policy</a>
-        <a href="#">Terms & Conditions</a>
-        <a href="#">Terms of Service</a>
-      </div>
-    </div>
-  </div>
-</footer>
+      </footer>
 
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.96 }}
-        className="fixed bottom-6 right-6 grid h-14 w-14 place-items-center rounded-full bg-[#0d669c] text-white shadow-[0_10px_24px_rgba(0,0,0,0.18)]"
+        className="fixed bottom-5 right-4 grid h-14 w-14 place-items-center rounded-full bg-[#0d669c] text-white shadow-[0_10px_24px_rgba(0,0,0,0.18)] sm:bottom-6 sm:right-6"
       >
         <ShoppingCart className="h-6 w-6" />
         <span className="absolute -top-1 right-0 grid h-5 w-5 place-items-center rounded-full bg-black text-[10px]">
