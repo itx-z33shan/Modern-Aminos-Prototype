@@ -275,6 +275,21 @@ function ProductCard({ product }) {
   );
 }
 
+function SharpStar({ className = "h-4 w-4", color = "#D4A843" }) {
+  return (
+    <svg
+      viewBox="57.4405 0 17.119 16.2812"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M66 0L68.0206 6.21885H74.5595L69.2694 10.0623L71.2901 16.2812L66 12.4377L60.7099 16.2812L62.7306 10.0623L57.4405 6.21885H63.9794L66 0Z"
+        fill={color}
+      />
+    </svg>
+  );
+}
 export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
@@ -382,13 +397,13 @@ export default function App() {
   return (
     <div className="bg-white text-[#0f2533]">
       {/* Top blue notice bar */}
-      <div className="bg-[#18689a] py-2 text-center text-[11px] font-medium text-white sm:text-[12px] md:text-[14px]">
+      <div className="bg-[#18689a] py-1 text-center text-[18px] font-medium text-white sm:text-[12px] md:text-[18px]">
         For laboratory research use only. Not for human consumption.
       </div>
 
       {/* Navbar */}
       <header className="border-b border-[#e7edf3] bg-white">
-        <div className="mx-auto flex h-[64px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[100px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[100px] sm:px-6 lg:px-8">
           <a href="#" className="flex items-center">
             <img
               src="/logo.svg"
@@ -473,18 +488,18 @@ export default function App() {
 
       <main>
         {/* Hero */}
-        <section className="bg-[#083553] py-7 text-white sm:py-10 md:py-14">
+        <section className="bg-[#083553] py-7 text-[#ffffff] sm:py-10 md:py-14">
           <motion.div
             {...fadeInUp}
             className="mx-auto grid w-full max-w-[1280px] gap-5 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
           >
             <div>
-              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-2 text-[10px] font-medium text-white sm:mb-4 sm:text-[12px]">
-                <Star className="h-3.5 w-3.5 fill-[#d5a73f] text-[#d5a73f]" />
+              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-9 py-3 text-[10px] font-medium text-white sm:mb-4 sm:text-[14px]">
+                <SharpStar className="h-3.5 w-3.5" color="#d5a73f" />
                 {pageData.hero.badge}
               </p>
 
-              <h1 className="max-w-[290px] text-[30px] leading-[1.02] font-semibold tracking-[-0.04em] sm:max-w-[460px] sm:text-[34px] md:text-[48px]">
+              <h1 className="max-w-[290px] text-[30px] leading-[1.02] font-bold tracking-[-0.04em] sm:max-w-[460px] sm:text-[34px] md:text-[48px]">
                 {pageData.hero.title}
               </h1>
 
@@ -512,7 +527,7 @@ export default function App() {
               <div className="rounded-[20px] border border-white/15 bg-white/10 p-4 sm:p-5">
                 <p className="mb-3 flex gap-1 text-[#d3a43f]">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-current" />
+                    <SharpStar key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </p>
 
@@ -770,7 +785,7 @@ export default function App() {
                 >
                   <div className="mb-3 flex gap-1 text-[#d1a13f]">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 fill-current" />
+                      <SharpStar key={i} className="h-4 w-4 fill-current" />
                     ))}
                   </div>
                   <p className="min-h-[88px] text-[11px] leading-6 italic text-[#687681] sm:min-h-[110px] sm:text-[13px] sm:leading-6">
@@ -794,7 +809,7 @@ export default function App() {
             </div>
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-center text-[11px] sm:mt-7 sm:text-[13px]">
-              <Star className="h-4 w-4 fill-[#01BC78] text-[#01BC78]" />
+              <SharpStar className="h-4 w-4 fill-[#01BC78] text-[#01BC78]" />
               <span className="font-semibold text-[#01BC78]">Trustpilot</span>
               <span className="font-semibold text-[#08202C]">4.9 / 5</span>
               <span className="font-semibold text-[#08202C]">

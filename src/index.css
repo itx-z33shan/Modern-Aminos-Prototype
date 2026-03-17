@@ -10,7 +10,6 @@ body {
   min-width: 320px;
   background: #f3f5f7;
 }
-
 .trust-scroll::-webkit-scrollbar,
 .category-scroll::-webkit-scrollbar {
   display: none;
