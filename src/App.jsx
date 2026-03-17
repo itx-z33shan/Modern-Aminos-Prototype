@@ -28,9 +28,13 @@ import { useEffect, useRef, useState } from "react";
 const pageData = {
   nav: [
     { label: "Home", active: true },
+    { label: "Shop ", hasArrow: true },
+    { label: "COA’s" },
+    { label: "FAQs" },
     { label: "Contact Us" },
-    
+    { label: "My Account" },
   ],
+
   hero: {
     badge: "Trusted by 10,000+ Researchers",
     title: "Premium Research Materials.",
@@ -287,15 +291,35 @@ function SharpStar({ className = "h-4 w-4", color = "#D4A843" }) {
     </svg>
   );
 }
+
 export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
+  const [categories, setCategories] = useState(pageData.categories);
 
   const trustStripRef = useRef(null);
   const categoriesRef = useRef(null);
 
   const trustVisibleRef = useRef(false);
   const categoriesVisibleRef = useRef(false);
+
+  const rotateCategoriesLeft = () => {
+    if (window.innerWidth < 1024) return;
+
+    setCategories((prev) => {
+      if (!prev.length) return prev;
+      return [prev[prev.length - 1], ...prev.slice(0, prev.length - 1)];
+    });
+  };
+
+  const rotateCategoriesRight = () => {
+    if (window.innerWidth < 1024) return;
+
+    setCategories((prev) => {
+      if (!prev.length) return prev;
+      return [...prev.slice(1), prev[0]];
+    });
+  };
 
   useEffect(() => {
     const trustEl = trustStripRef.current;
@@ -364,7 +388,7 @@ export default function App() {
 
     const getCards = () => container.querySelectorAll("[data-category-card]");
 
-    const scrollToCard = (index) => {
+    const scrollToCard = (index, smooth = true) => {
       const cards = getCards();
       if (!cards.length) return;
 
@@ -373,7 +397,7 @@ export default function App() {
 
       container.scrollTo({
         left: target.offsetLeft - container.offsetLeft,
-        behavior: "smooth",
+        behavior: smooth ? "smooth" : "auto",
       });
     };
 
@@ -384,8 +408,13 @@ export default function App() {
       const cards = getCards();
       if (!cards.length) return;
 
-      currentIndex = (currentIndex + 1) % cards.length;
-      scrollToCard(currentIndex);
+      if (currentIndex < cards.length - 1) {
+        currentIndex += 1;
+        scrollToCard(currentIndex, true);
+      } else {
+        currentIndex = 0;
+        scrollToCard(0, false);
+      }
     }, 2700);
 
     return () => clearInterval(autoScroll);
@@ -393,12 +422,10 @@ export default function App() {
 
   return (
     <div className="bg-white text-[#0f2533]">
-      {/* Top blue notice bar */}
       <div className="bg-[#18689a] py-1 text-center text-[18px] font-medium text-white sm:text-[12px] md:text-[18px]">
         For laboratory research use only. Not for human consumption.
       </div>
-
-      {/* Navbar */}
+      {/* Header */}
       <header className="border-b border-[#e7edf3] bg-white">
         <div className="mx-auto flex h-[100px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[100px] sm:px-6 lg:px-8">
           <a href="#" className="flex items-center">
@@ -408,8 +435,8 @@ export default function App() {
               className="h-auto w-[138px] sm:w-[190px] md:w-[230px]"
             />
           </a>
-
-          <nav className="hidden items-center gap-7 text-[14px] font-medium text-[#0f2533] lg:flex">
+          {/* Navigation & Actions */}
+          <nav className="hidden items-center gap-10 text-[14px] font-medium text-[#0f2533] lg:flex">
             {pageData.nav.map((item) => (
               <a
                 key={item.label}
@@ -454,7 +481,6 @@ export default function App() {
         </div>
       </header>
 
-      {/* Mobile menu */}
       {mobileMenu && (
         <div className="fixed inset-0 z-50 bg-black/40 lg:hidden">
           <div className="absolute right-0 top-0 h-full w-[82%] bg-white p-6 shadow-2xl">
@@ -482,12 +508,12 @@ export default function App() {
       )}
 
       <main>
-        {/* Hero */}
         <section className="bg-[#002a4d] py-7 text-[#ffffff] sm:py-10 md:py-14">
           <motion.div
             {...fadeInUp}
             className="mx-auto grid w-full max-w-[1280px] gap-5 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
           >
+            {/* Hero Content */}
             <div>
               <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-9 py-3 text-[10px] font-medium text-white sm:mb-4 sm:text-[14px]">
                 <SharpStar className="h-3.5 w-3.5" color="#d5a73f" />
@@ -517,12 +543,12 @@ export default function App() {
                 </button>
               </div>
             </div>
-
+            {/* Hero Quote & Stats */}
             <div>
               <div className="rounded-[20px] border border-white/15 bg-white/10 p-4 sm:p-5">
-                <p className="mb-3 flex gap-1 text-[#d3a43f]">
+                <p className="mb-3 flex gap-1">
                   {[...Array(5)].map((_, i) => (
-                    <SharpStar key={i} className="h-4 w-4 fill-current" />
+                    <SharpStar key={i} className="h-4 w-4" color="#D4A843" />
                   ))}
                 </p>
 
@@ -555,7 +581,6 @@ export default function App() {
             </div>
           </motion.div>
         </section>
-
         {/* Trust Strip */}
         <section className="border-y border-[#e4ebf1] bg-[#f6f9fb] py-4">
           <div
@@ -584,8 +609,7 @@ export default function App() {
             ))}
           </div>
         </section>
-
-        {/* Shop by Category */}
+        {/* Categories */}
         <motion.section
           {...fadeInUp}
           className="mx-auto w-full max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8"
@@ -598,7 +622,10 @@ export default function App() {
           </div>
 
           <div className="relative">
-            <button className="absolute left-[-14px] top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+            <button
+              onClick={rotateCategoriesLeft}
+              className="absolute left-[-14px] top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid"
+            >
               <ChevronLeft className="h-5 w-5" />
             </button>
 
@@ -606,7 +633,7 @@ export default function App() {
               ref={categoriesRef}
               className="category-scroll flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] snap-x snap-mandatory sm:grid sm:grid-cols-3 sm:overflow-visible sm:pb-0 lg:grid-cols-6"
             >
-              {pageData.categories.map((category) => (
+              {categories.map((category) => (
                 <div
                   key={category.title}
                   data-category-card
@@ -629,13 +656,15 @@ export default function App() {
               ))}
             </div>
 
-            <button className="absolute right-[-14px] top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+            <button
+              onClick={rotateCategoriesRight}
+              className="absolute right-[-14px] top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid"
+            >
               <ChevronRight className="h-5 w-5" />
             </button>
           </div>
         </motion.section>
-
-        {/* Quality Cards */}
+        {/* Quality Assurance Cards */}
         <motion.section
           {...fadeInUp}
           className="mx-auto w-full max-w-[1280px] px-4 pb-6 sm:px-6 lg:px-8"
@@ -678,7 +707,6 @@ export default function App() {
           </div>
         </motion.section>
 
-        {/* Best Selling Products */}
         <motion.section
           {...fadeInUp}
           className="mx-auto w-full max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8"
@@ -697,7 +725,6 @@ export default function App() {
           </div>
         </motion.section>
 
-        {/* QR Section */}
         <motion.section {...fadeInUp} className="py-10 sm:py-14">
           <div className="mx-auto grid w-full max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div>
@@ -724,7 +751,6 @@ export default function App() {
           </div>
         </motion.section>
 
-        {/* Trust Section */}
         <motion.section {...fadeInUp} className="bg-[#eff4f7] py-12 sm:py-14">
           <div className="mx-auto w-full max-w-[1280px] px-4 text-center sm:px-6 lg:px-8">
             <div className="inline-flex rounded-full bg-[#f6eedc] px-4 py-2 text-[12px] font-medium text-[#d1a13f] sm:text-[13px]">
@@ -778,9 +804,9 @@ export default function App() {
                   key={item.name}
                   className="rounded-[16px] border border-[#dbe4ec] bg-white p-4 text-left"
                 >
-                  <div className="mb-3 flex gap-1 text-[#d1a13f]">
+                  <div className="mb-3 flex gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <SharpStar key={i} className="h-4 w-4 fill-current" />
+                      <SharpStar key={i} className="h-4 w-4" color="#D4A843" />
                     ))}
                   </div>
                   <p className="min-h-[88px] text-[11px] leading-6 italic text-[#687681] sm:min-h-[110px] sm:text-[13px] sm:leading-6">
@@ -804,7 +830,7 @@ export default function App() {
             </div>
 
             <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-center text-[11px] sm:mt-7 sm:text-[13px]">
-              <SharpStar className="h-4 w-4 fill-[#01BC78] text-[#01BC78]" />
+              <SharpStar className="h-4 w-4" color="#01BC78" />
               <span className="font-semibold text-[#01BC78]">Trustpilot</span>
               <span className="font-semibold text-[#08202C]">4.9 / 5</span>
               <span className="font-semibold text-[#08202C]">
@@ -814,7 +840,6 @@ export default function App() {
           </div>
         </motion.section>
 
-        {/* New Arrivals + Coming Soon */}
         {[
           {
             title: "New",
@@ -851,7 +876,6 @@ export default function App() {
           </motion.section>
         ))}
 
-        {/* FAQ */}
         <motion.section
           {...fadeInUp}
           className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
@@ -896,7 +920,6 @@ export default function App() {
         </motion.section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-[#113b54] text-white">
         <div className="mx-auto w-full max-w-[1280px] px-4 pb-10 pt-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr_1.2fr]">
@@ -908,7 +931,7 @@ export default function App() {
                   className="w-[190px] brightness-0 invert md:w-[220px]"
                 />
               </a>
-              <p className="mt-5 max-w-xs text-[13px] leading-6 text-white/95">
+              <p className="mt-5 max-w-xs text-[13px] leading-6 text-[#000000]">
                 Quality products and exceptional service are very important to
                 us
               </p>
@@ -916,30 +939,35 @@ export default function App() {
 
             <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-1">
               <div>
-                <p className="text-[18px] font-semibold">Contact Us</p>
+                <p className="text-[18px] font-semibold text-[#000000]">Contact Us</p>
                 <p className="mt-3 flex items-center gap-2 text-[13px] text-[#cc3366]">
-                  <Mail className="h-4 w-4 text-[#cc3366]" /> cs@modernaminos.com
+                  <Mail className="h-4 w-4 text-[#cc3366]" />{" "}
+                  cs@modernaminos.com
                 </p>
               </div>
 
               <div>
-                <p className="text-[18px] font-semibold">Quick Links</p>
-                {pageData.nav.map((item) => (
-                  <p
-                    key={item.label}
-                    className="mt-2 text-[13px] text-[#cc3366]"
-                  >
-                    {item.label}
-                  </p>
-                ))}
+                <p className="text-[18px] font-semibold text-[#000000]">Quick Links</p>
+                <a
+                  href="#"
+                  className="mt-3 block text-[13px] text-[#cc3366] hover:underline"
+                >
+                  Home
+                </a>
+                <a
+                  href="#"
+                  className="mt-1 block text-[13px] text-[#cc3366] hover:underline"
+                >
+                  Contact Us
+                </a>
               </div>
             </div>
 
             <div>
-              <p className="text-[18px] font-semibold">
+              <p className="text-[18px] font-semibold text-[#000000]">
                 Subscribe now to save 15%
               </p>
-              <p className="mt-3 max-w-[410px] text-[13px] leading-6 text-white/95">
+              <p className="mt-3 max-w-[410px] text-[13px] leading-6 text-[#000000]">
                 Subscribe and get exclusive updates straight to your inbox for
                 free
               </p>
@@ -949,13 +977,26 @@ export default function App() {
                   placeholder="Email"
                 />
                 <button className="flex items-center gap-2 bg-white px-5 text-[13px] font-semibold text-[#1a4360]">
-                  <ArrowRight className="h-4 w-4" /> Send
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      d="M12.7262 1.94729L2.23289 5.74146L5.72872 7.76479L8.81122 4.68146C8.96759 4.5252 9.17962 4.43746 9.40068 4.43754C9.62174 4.43762 9.83371 4.52551 9.98997 4.68188C10.1462 4.83824 10.234 5.05028 10.2339 5.27134C10.2338 5.4924 10.1459 5.70437 9.98955 5.86063L6.90622 8.94396L8.93122 12.439L12.7262 1.94729ZM12.9954 0.077292C13.9912 -0.283541 14.9562 0.681458 14.5954 1.67729L10.1937 13.8481C9.83205 14.8465 8.46872 14.9681 7.93622 14.049L5.25539 9.41729L0.623719 6.73646C-0.295448 6.20396 -0.173781 4.84063 0.824552 4.47896L12.9954 0.077292Z"
+                      fill="#106090"
+                    />
+                  </svg>{" "}
+                  Send
                 </button>
               </div>
             </div>
           </div>
 
-          <p className="mx-auto mt-10 max-w-[1180px] text-center text-[12px] leading-7 text-white/90">
+          <p className="mx-auto mt-10 max-w-[1180px] text-center text-[14px] leading-7 text-white/95">
             Please be advised: All compounds and research materials provided by
             Modern Aminos are strictly for laboratory and research use only.
             They are not approved for human consumption by the Food and Drug
@@ -965,7 +1006,7 @@ export default function App() {
             exclusively within a controlled and qualified research environment.
           </p>
 
-          <div className="mt-8 flex flex-col items-center justify-between gap-5 text-[12px] text-white/90 lg:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-between gap-5 text-[12px] text-[#000000] lg:flex-row">
             <p>Copyright 2026, All Rights Reserved.</p>
             <div className="flex flex-wrap items-center justify-center gap-5">
               <a href="#" className="text-[#cc3366] hover:underline">
@@ -985,11 +1026,10 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Floating cart */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.96 }}
-        className="fixed bottom-5 right-4 z-50 grid h-13 w-13 place-items-center rounded-full bg-[#0d669c] text-white shadow-[0_10px_24px_rgba(0,0,0,0.18)] sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
+        className="fixed bottom-5 right-4 z-50 grid h-[52px] w-[52px] place-items-center rounded-full bg-[#0d669c] text-white shadow-[0_10px_24px_rgba(0,0,0,0.18)] sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
       >
         <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
         <span className="absolute -top-1 right-0 grid h-5 w-5 place-items-center rounded-full bg-black text-[10px]">
