@@ -74,7 +74,12 @@ const pageData = {
   ],
   categories: [
     { title: "Aminos", count: "16 Products", icon: TestTube },
-    { title: "Cognitive Compounds", count: "27 Products", icon: Brain, active: true },
+    {
+      title: "Cognitive Compounds",
+      count: "27 Products",
+      icon: Brain,
+      active: true,
+    },
     { title: "Liquids", count: "20 Products", icon: Wine },
     { title: "Peptides", count: "60 Products", icon: Beaker },
     { title: "Powders", count: "52 Products", icon: Pill },
@@ -411,7 +416,9 @@ export default function App() {
                 <p className="text-[15px] leading-7 italic sm:text-[17px]">
                   “{pageData.hero.quote}”
                 </p>
-                <p className="mt-4 text-[15px] font-semibold">— {pageData.hero.quoteAuthor}</p>
+                <p className="mt-4 text-[15px] font-semibold">
+                  — {pageData.hero.quoteAuthor}
+                </p>
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
@@ -422,8 +429,12 @@ export default function App() {
                     className="rounded-xl border border-white/15 bg-white/10 p-4"
                   >
                     <item.icon className="mb-2 h-5 w-5 text-[#d6a740]" />
-                    <p className="text-[19px] font-semibold text-[#d6a740]">{item.label}</p>
-                    <p className="mt-1 text-[11px] leading-5 text-[#c0d1de]">{item.sub}</p>
+                    <p className="text-[19px] font-semibold text-[#d6a740]">
+                      {item.label}
+                    </p>
+                    <p className="mt-1 text-[11px] leading-5 text-[#c0d1de]">
+                      {item.sub}
+                    </p>
                   </motion.div>
                 ))}
               </div>
@@ -435,13 +446,20 @@ export default function App() {
         <section className="border-y border-[#e4ebf1] bg-[#f6f9fb] py-5">
           <div className="mx-auto flex gap-5 overflow-x-auto px-4 sm:px-6 lg:grid lg:max-w-[1280px] lg:grid-cols-4 lg:overflow-visible lg:px-8">
             {pageData.trustStrip.map((item) => (
-              <div key={item.title} className="flex min-w-[220px] items-center gap-4 lg:min-w-0">
+              <div
+                key={item.title}
+                className="flex min-w-[220px] items-center gap-4 lg:min-w-0"
+              >
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#dfebf5] text-[#2d7ca8]">
                   <item.icon className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-[17px] font-semibold text-[#0f2533]">{item.title}</p>
-                  <p className="text-[12px] leading-5 text-[#748392]">{item.text}</p>
+                  <p className="text-[17px] font-semibold text-[#0f2533]">
+                    {item.title}
+                  </p>
+                  <p className="text-[12px] leading-5 text-[#748392]">
+                    {item.text}
+                  </p>
                 </div>
               </div>
             ))}
@@ -449,7 +467,10 @@ export default function App() {
         </section>
 
         {/* Shop by Category */}
-        <motion.section {...fadeInUp} className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8">
+        <motion.section
+          {...fadeInUp}
+          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
+        >
           <div className="mb-6 flex items-center justify-between gap-4">
             {sectionHeading("Shop by", "Category")}
             <button className="h-10 rounded-full bg-[#1b6ea1] px-6 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
@@ -475,8 +496,12 @@ export default function App() {
                   <div className="mx-auto mb-3 grid h-[72px] w-[72px] place-items-center rounded-[12px] bg-[#f4f6f8] text-[#2f7ea9]">
                     <category.icon className="h-7 w-7" />
                   </div>
-                  <p className="text-[13px] font-medium text-[#1f6f9f]">{category.title}</p>
-                  <p className="mt-1 text-[11px] text-[#8a98a6]">{category.count}</p>
+                  <p className="text-[13px] font-medium text-[#1f6f9f]">
+                    {category.title}
+                  </p>
+                  <p className="mt-1 text-[11px] text-[#8a98a6]">
+                    {category.count}
+                  </p>
                 </div>
               ))}
             </div>
@@ -488,28 +513,53 @@ export default function App() {
         </motion.section>
 
         {/* Quality Cards */}
-        <motion.section {...fadeInUp} className="mx-auto w-full max-w-[1280px] px-4 pb-8 sm:px-6 lg:px-8">
+        <motion.section
+          {...fadeInUp}
+          className="mx-auto w-full max-w-[1280px] px-4 pb-8 sm:px-6 lg:px-8"
+        >
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[
-              { badge: "HPLC", title: "Purity & Identity", text: "Confirms compound identity and purity for each batch. Certificates available per SKU / lot." },
-              { badge: "QC", title: "Sterility & Endotoxin", text: "Quality assurance checks supporting consistent lab research handling and storage standards." },
-              { badge: "Batch", title: "Batch Traceability", text: "Each product is tied to a batch number for quick verification and repeatable re-orders." },
+              {
+                badge: "HPLC",
+                title: "Purity & Identity",
+                text: "Confirms compound identity and purity for each batch. Certificates available per SKU / lot.",
+              },
+              {
+                badge: "QC",
+                title: "Sterility & Endotoxin",
+                text: "Quality assurance checks supporting consistent lab research handling and storage standards.",
+              },
+              {
+                badge: "Batch",
+                title: "Batch Traceability",
+                text: "Each product is tied to a batch number for quick verification and repeatable re-orders.",
+              },
             ].map((card) => (
-              <div key={card.title} className="rounded-[18px] border border-[#d6e3ef] bg-white p-5 sm:p-6">
+              <div
+                key={card.title}
+                className="rounded-[18px] border border-[#d6e3ef] bg-white p-5 sm:p-6"
+              >
                 <div className="mb-4 flex justify-end">
                   <span className="rounded-md bg-[#edf6fd] px-3 py-[5px] text-[11px] font-medium text-[#12608E]">
                     {card.badge}
                   </span>
                 </div>
-                <p className="text-[22px] font-semibold text-[#d1a13f]">{card.title}</p>
-                <p className="mt-3 text-[13px] leading-6 text-[#7b8894]">{card.text}</p>
+                <p className="text-[22px] font-semibold text-[#d1a13f]">
+                  {card.title}
+                </p>
+                <p className="mt-3 text-[13px] leading-6 text-[#7b8894]">
+                  {card.text}
+                </p>
               </div>
             ))}
           </div>
         </motion.section>
 
         {/* Best Selling Products */}
-        <motion.section {...fadeInUp} className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8">
+        <motion.section
+          {...fadeInUp}
+          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
+        >
           <div className="mb-6 flex items-center justify-between gap-4">
             {sectionHeading("Our Best", "Selling Products")}
             <button className="h-10 rounded-full bg-[#1b6ea1] px-6 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
@@ -529,7 +579,8 @@ export default function App() {
           <div className="mx-auto grid w-full max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div>
               <h3 className="max-w-[520px] text-[24px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[30px] md:text-[44px]">
-                Scan <span className="text-[#d1a13f]">The QR Code</span> On Your Vial Label
+                Scan <span className="text-[#d1a13f]">The QR Code</span> On Your
+                Vial Label
               </h3>
               <p className="mt-5 max-w-[620px] text-[14px] leading-7 text-[#7b8894] sm:text-[16px]">
                 {pageData.qrSection.description}
@@ -563,7 +614,8 @@ export default function App() {
             </h3>
 
             <p className="mx-auto mt-4 max-w-[720px] text-[14px] leading-7 text-[#0f2533] sm:text-[16px]">
-              Modern Aminos publishes full lab verification and batch traceability so you can research with confidence.
+              Modern Aminos publishes full lab verification and batch
+              traceability so you can research with confidence.
             </p>
 
             <div className="mx-auto mt-8 grid max-w-[760px] gap-4 rounded-[16px] bg-[#0d4e79] p-5 text-left sm:mt-10 sm:p-6 sm:grid-cols-3">
@@ -574,11 +626,17 @@ export default function App() {
               ].map((stat) => (
                 <div key={stat.title} className="flex items-center gap-3">
                   <div className="grid h-10 w-10 place-items-center rounded-md bg-white/10 sm:h-11 sm:w-11">
-                    <stat.icon className={`h-5 w-5 ${stat.title === "4.9/5" ? "text-[#d1a13f]" : "text-white"}`} />
+                    <stat.icon
+                      className={`h-5 w-5 ${stat.title === "4.9/5" ? "text-[#d1a13f]" : "text-white"}`}
+                    />
                   </div>
                   <div>
-                    <p className="text-[19px] font-bold text-white sm:text-[22px]">{stat.title}</p>
-                    <p className="text-[11px] text-white/75 sm:text-[12px]">{stat.text}</p>
+                    <p className="text-[19px] font-bold text-white sm:text-[22px]">
+                      {stat.title}
+                    </p>
+                    <p className="text-[11px] text-white/75 sm:text-[12px]">
+                      {stat.text}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -608,8 +666,12 @@ export default function App() {
                       {item.initials}
                     </div>
                     <div>
-                      <p className="text-[13px] font-semibold text-[#1b6ea1] sm:text-[14px]">{item.name}</p>
-                      <p className="text-[11px] text-[#8a97a3] sm:text-[12px]">{item.role}</p>
+                      <p className="text-[13px] font-semibold text-[#1b6ea1] sm:text-[14px]">
+                        {item.name}
+                      </p>
+                      <p className="text-[11px] text-[#8a97a3] sm:text-[12px]">
+                        {item.role}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -620,15 +682,27 @@ export default function App() {
               <Star className="h-5 w-5 fill-[#01BC78] text-[#01BC78]" />
               <span className="font-semibold text-[#01BC78]">Trustpilot</span>
               <span className="font-semibold text-[#08202C]">4.9 / 5</span>
-              <span className="font-semibold text-[#08202C]">- 1000+ Verified Reviews</span>
+              <span className="font-semibold text-[#08202C]">
+                - 1000+ Verified Reviews
+              </span>
             </div>
           </div>
         </motion.section>
 
         {/* New Arrivals + Coming Soon */}
         {[
-          { title: "New", highlight: "Arrivals", items: pageData.newArrivals, bg: "bg-white" },
-          { title: "Coming", highlight: "Soon", items: pageData.comingSoon, bg: "bg-[#f1f7fa]" },
+          {
+            title: "New",
+            highlight: "Arrivals",
+            items: pageData.newArrivals,
+            bg: "bg-white",
+          },
+          {
+            title: "Coming",
+            highlight: "Soon",
+            items: pageData.comingSoon,
+            bg: "bg-[#f1f7fa]",
+          },
         ].map((section) => (
           <motion.section
             key={section.highlight}
@@ -653,7 +727,10 @@ export default function App() {
         ))}
 
         {/* FAQ */}
-        <motion.section {...fadeInUp} className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8">
+        <motion.section
+          {...fadeInUp}
+          className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8"
+        >
           <div className="mb-6 flex items-center justify-between gap-4">
             {sectionHeading("Frequently", "Asked Questions")}
             <button className="h-9 rounded-full bg-[#1b6ea1] px-6 text-[12px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[13px]">
@@ -669,11 +746,17 @@ export default function App() {
                   <button
                     onClick={() => setFaqOpen(open ? -1 : index)}
                     className={`flex min-h-[58px] w-full items-center justify-between rounded-[999px] px-5 text-left text-[14px] font-semibold transition sm:min-h-[64px] sm:px-6 sm:text-[15px] md:px-8 ${
-                      open ? "bg-[#1b6ea1] text-white" : "bg-[#deebf5] text-[#23406d]"
+                      open
+                        ? "bg-[#1b6ea1] text-white"
+                        : "bg-[#deebf5] text-[#23406d]"
                     }`}
                   >
                     {faq.question}
-                    {open ? <span className="text-2xl">−</span> : <Plus className="h-4 w-4" />}
+                    {open ? (
+                      <span className="text-2xl">−</span>
+                    ) : (
+                      <Plus className="h-4 w-4" />
+                    )}
                   </button>
 
                   {open && (
@@ -701,7 +784,8 @@ export default function App() {
                 />
               </a>
               <p className="mt-6 max-w-xs text-[14px] leading-7 text-white/95">
-                Quality products and exceptional service are very important to us
+                Quality products and exceptional service are very important to
+                us
               </p>
             </div>
 
@@ -716,7 +800,10 @@ export default function App() {
               <div>
                 <p className="text-[21px] font-semibold">Quick Links</p>
                 {pageData.nav.map((item) => (
-                  <p key={item.label} className="mt-2 text-[14px] text-white/95">
+                  <p
+                    key={item.label}
+                    className="mt-2 text-[14px] text-white/95"
+                  >
                     {item.label}
                   </p>
                 ))}
@@ -724,9 +811,12 @@ export default function App() {
             </div>
 
             <div>
-              <p className="text-[21px] font-semibold">Subscribe now to save 15%</p>
+              <p className="text-[21px] font-semibold">
+                Subscribe now to save 15%
+              </p>
               <p className="mt-3 max-w-[410px] text-[14px] leading-7 text-white/95">
-                Subscribe and get exclusive updates straight to your inbox for free
+                Subscribe and get exclusive updates straight to your inbox for
+                free
               </p>
               <div className="mt-5 flex h-12 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9]">
                 <input
@@ -741,7 +831,13 @@ export default function App() {
           </div>
 
           <p className="mx-auto mt-12 max-w-[1180px] text-center text-[13px] leading-8 text-white/90">
-            Please be advised: All compounds and research materials provided by Modern Aminos are strictly for laboratory and research use only.
+            Please be advised: All compounds and research materials provided by
+            Modern Aminos are strictly for laboratory and research use only.
+            They are not approved for human consumption by the Food and Drug
+            Administration (FDA). These products should not be used for any form
+            of in vivo experimentation or for any other non-laboratory purpose.
+            By purchasing these products, you acknowledge that they will be used
+            exclusively within a controlled and qualified research environment.
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-between gap-6 text-[13px] text-white/90 lg:flex-row">
