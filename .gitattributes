@@ -1,0 +1,21 @@
+# Set the line ending for node_modules to suppress warnings
+node_modules/* text eol=lf
+
+# Ensure all JS/TS/CSS/HTML use LF
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.svg binary
+*.ico binary
