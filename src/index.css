@@ -2,7 +2,7 @@
 @import "tailwindcss";
 
 :root {
-  font-family: "Poppins", Sans-serif ;
+  font-family: "Poppins", Sans-serif;
 }
 
 body {
@@ -11,6 +11,10 @@ body {
   background: #f3f5f7;
 }
 
+.trust-scroll::-webkit-scrollbar,
+.category-scroll::-webkit-scrollbar {
+  display: none;
+}
 * {
   box-sizing: border-box;
 }

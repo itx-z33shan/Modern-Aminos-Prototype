@@ -23,7 +23,7 @@ import {
   Wine,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const pageData = {
   nav: [
@@ -222,21 +222,22 @@ const pageData = {
 };
 
 const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: 16 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.18 },
 };
 
 const sectionHeading = (before, highlight) => (
-  <h3 className="text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0e2433] sm:text-[26px] md:text-[42px]">
+  <h3 className="text-[20px] font-semibold leading-[1.15] tracking-[-0.02em] text-[#0e2433] sm:text-[24px] md:text-[36px]">
     {before} <span className="text-[#1b6ea1]">{highlight}</span>
   </h3>
 );
 
 function CardButton({ label }) {
   return (
-    <button className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-full border border-[#2f7eaa] text-[13px] font-medium text-[#2f7eaa] transition hover:bg-[#2f7eaa] hover:text-white sm:mt-4 sm:text-[14px]">
-      <ShoppingCart className="h-4 w-4" /> {label}
+    <button className="mt-2.5 flex h-9 w-full items-center justify-center gap-2 rounded-full border border-[#2f7eaa] text-[12px] font-medium text-[#2f7eaa] transition hover:bg-[#2f7eaa] hover:text-white sm:mt-3 sm:h-10 sm:text-[13px]">
+      <ShoppingCart className="h-3.5 w-3.5" />
+      {label}
     </button>
   );
 }
@@ -244,11 +245,11 @@ function CardButton({ label }) {
 function ProductCard({ product }) {
   return (
     <motion.article
-      whileHover={{ y: -4, boxShadow: "0 14px 28px rgba(18,45,63,0.08)" }}
-      className="relative rounded-[12px] border border-[#eef2f5] bg-white p-2.5 shadow-[0_2px_12px_rgba(0,0,0,0.06)] sm:p-3"
+      whileHover={{ y: -3, boxShadow: "0 12px 24px rgba(18,45,63,0.08)" }}
+      className="relative rounded-[12px] border border-[#eef2f5] bg-white p-2 shadow-[0_2px_10px_rgba(0,0,0,0.05)] sm:p-2.5"
     >
       {product.outOfStock && (
-        <span className="absolute right-3 top-3 z-10 rounded-full bg-red-600 px-2.5 py-1 text-[10px] font-medium text-white">
+        <span className="absolute right-3 top-3 z-10 rounded-full bg-red-600 px-2 py-1 text-[9px] font-medium text-white">
           Out of Stock
         </span>
       )}
@@ -257,15 +258,15 @@ function ProductCard({ product }) {
         <img
           src={product.image}
           alt={product.name}
-          className="h-[160px] w-full object-cover sm:h-[220px]"
+          className="h-[145px] w-full object-cover sm:h-[190px]"
         />
       </div>
 
-      <p className="mt-3 min-h-[46px] text-center text-[13px] leading-[1.28] font-semibold text-[#1a6d9c] sm:min-h-[54px] sm:text-[16px]">
+      <p className="mt-2.5 min-h-[40px] text-center text-[12px] leading-[1.25] font-semibold text-[#1a6d9c] sm:min-h-[46px] sm:text-[14px]">
         {product.name}
       </p>
 
-      <p className="mt-2 text-center text-[13px] font-semibold text-[#0f2533] sm:text-[15px]">
+      <p className="mt-1.5 text-center text-[12px] font-semibold text-[#0f2533] sm:text-[14px]">
         {product.price}
       </p>
 
@@ -278,32 +279,132 @@ export default function App() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
 
+  const trustStripRef = useRef(null);
+  const categoriesRef = useRef(null);
+
+  const trustVisibleRef = useRef(false);
+  const categoriesVisibleRef = useRef(false);
+
+  useEffect(() => {
+    const trustEl = trustStripRef.current;
+    const categoriesEl = categoriesRef.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === trustEl) {
+            trustVisibleRef.current = entry.isIntersecting;
+          }
+          if (entry.target === categoriesEl) {
+            categoriesVisibleRef.current = entry.isIntersecting;
+          }
+        });
+      },
+      { threshold: 0.45 },
+    );
+
+    if (trustEl) observer.observe(trustEl);
+    if (categoriesEl) observer.observe(categoriesEl);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const container = trustStripRef.current;
+    if (!container) return;
+
+    let currentIndex = 0;
+
+    const getCards = () => container.querySelectorAll("[data-trust-card]");
+
+    const scrollToCard = (index) => {
+      const cards = getCards();
+      if (!cards.length) return;
+
+      const target = cards[index];
+      if (!target) return;
+
+      container.scrollTo({
+        left: target.offsetLeft - container.offsetLeft,
+        behavior: "smooth",
+      });
+    };
+
+    const autoScroll = setInterval(() => {
+      if (window.innerWidth >= 1024) return;
+      if (!trustVisibleRef.current) return;
+
+      const cards = getCards();
+      if (!cards.length) return;
+
+      currentIndex = (currentIndex + 1) % cards.length;
+      scrollToCard(currentIndex);
+    }, 2600);
+
+    return () => clearInterval(autoScroll);
+  }, []);
+
+  useEffect(() => {
+    const container = categoriesRef.current;
+    if (!container) return;
+
+    let currentIndex = 0;
+
+    const getCards = () => container.querySelectorAll("[data-category-card]");
+
+    const scrollToCard = (index) => {
+      const cards = getCards();
+      if (!cards.length) return;
+
+      const target = cards[index];
+      if (!target) return;
+
+      container.scrollTo({
+        left: target.offsetLeft - container.offsetLeft,
+        behavior: "smooth",
+      });
+    };
+
+    const autoScroll = setInterval(() => {
+      if (window.innerWidth >= 640) return;
+      if (!categoriesVisibleRef.current) return;
+
+      const cards = getCards();
+      if (!cards.length) return;
+
+      currentIndex = (currentIndex + 1) % cards.length;
+      scrollToCard(currentIndex);
+    }, 2700);
+
+    return () => clearInterval(autoScroll);
+  }, []);
+
   return (
     <div className="bg-white text-[#0f2533]">
       {/* Top blue notice bar */}
-      <div className="bg-[#18689a] py-2 text-center text-[12px] font-medium text-white sm:text-[13px] md:text-[15px]">
+      <div className="bg-[#18689a] py-2 text-center text-[11px] font-medium text-white sm:text-[12px] md:text-[14px]">
         For laboratory research use only. Not for human consumption.
       </div>
 
       {/* Navbar */}
       <header className="border-b border-[#e7edf3] bg-white">
-        <div className="mx-auto flex h-[74px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[84px] sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[64px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[76px] sm:px-6 lg:px-8">
           <a href="#" className="flex items-center">
             <img
               src="/logo.svg"
               alt="Modern Aminos"
-              className="h-auto w-[165px] sm:w-[210px] md:w-[260px]"
+              className="h-auto w-[138px] sm:w-[190px] md:w-[230px]"
             />
           </a>
 
-          <nav className="hidden items-center gap-8 text-[15px] font-medium text-[#0f2533] lg:flex">
+          <nav className="hidden items-center gap-7 text-[14px] font-medium text-[#0f2533] lg:flex">
             {pageData.nav.map((item) => (
               <a
                 key={item.label}
                 href="#"
                 className={`flex items-center gap-1 transition-colors hover:text-[#1b6ea1] ${
                   item.active
-                    ? "rounded-full bg-[#e8f1f8] px-4 py-3 text-[#1b6ea1]"
+                    ? "rounded-full bg-[#e8f1f8] px-4 py-2.5 text-[#1b6ea1]"
                     : ""
                 }`}
               >
@@ -313,31 +414,31 @@ export default function App() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3 sm:gap-4">
-            <button className="hidden items-center gap-1 text-[14px] font-medium text-[#1b6ea1] sm:flex">
-              USA <ChevronDown className="h-4 w-4" />
-            </button>
-
-            <button className="text-[#1b6ea1]">
-              <CircleUserRound className="h-6 w-6" />
-            </button>
-
+          <div className="flex items-center gap-2 sm:gap-3.5">
             <button className="relative text-[#1b6ea1]">
-              <ShoppingCart className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-red-600 text-[10px] text-white">
+              <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
+              <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-red-600 text-[8px] text-white sm:h-5 sm:w-5 sm:text-[10px]">
                 0
               </span>
             </button>
 
-            <button className="hidden text-[#1b6ea1] sm:block">
-              <Search className="h-6 w-6" />
+            <button className="flex items-center gap-1 text-[12px] font-medium text-[#1b6ea1] sm:text-[13px]">
+              USA <ChevronDown className="h-4 w-4" />
+            </button>
+
+            <button className="text-[#1b6ea1]">
+              <Search className="h-5 w-5 sm:h-6 sm:w-6" />
+            </button>
+
+            <button className="text-[#1b6ea1]">
+              <CircleUserRound className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
 
             <button
               onClick={() => setMobileMenu(true)}
               className="text-[#1b6ea1] lg:hidden"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-6 w-6 sm:h-7 sm:w-7" />
             </button>
           </div>
         </div>
@@ -347,14 +448,14 @@ export default function App() {
       {mobileMenu && (
         <div className="fixed inset-0 z-50 bg-black/40 lg:hidden">
           <div className="absolute right-0 top-0 h-full w-[82%] bg-white p-6 shadow-2xl">
-            <div className="mb-10 flex items-center justify-between">
-              <img src="/logo.svg" alt="Modern Aminos" className="w-[170px]" />
+            <div className="mb-8 flex items-center justify-between">
+              <img src="/logo.svg" alt="Modern Aminos" className="w-[160px]" />
               <button onClick={() => setMobileMenu(false)}>
                 <X className="h-6 w-6 text-[#0f2533]" />
               </button>
             </div>
 
-            <div className="space-y-6 text-[16px] font-medium">
+            <div className="space-y-5 text-[15px] font-medium">
               {pageData.nav.map((item) => (
                 <a
                   key={item.label}
@@ -372,67 +473,70 @@ export default function App() {
 
       <main>
         {/* Hero */}
-        <section className="bg-[#083553] py-10 text-white sm:py-12 md:py-16">
+        <section className="bg-[#083553] py-7 text-white sm:py-10 md:py-14">
           <motion.div
             {...fadeInUp}
-            className="mx-auto grid w-full max-w-[1280px] gap-8 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
+            className="mx-auto grid w-full max-w-[1280px] gap-5 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
           >
             <div>
-              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[12px] font-medium text-white sm:mb-5 sm:text-[13px]">
-                <Star className="h-4 w-4 fill-[#d5a73f] text-[#d5a73f]" />
+              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-2 text-[10px] font-medium text-white sm:mb-4 sm:text-[12px]">
+                <Star className="h-3.5 w-3.5 fill-[#d5a73f] text-[#d5a73f]" />
                 {pageData.hero.badge}
               </p>
 
-              <h1 className="max-w-[520px] text-[30px] leading-[1.1] font-semibold tracking-[-0.03em] sm:text-[36px] md:text-[56px]">
+              <h1 className="max-w-[290px] text-[30px] leading-[1.02] font-semibold tracking-[-0.04em] sm:max-w-[460px] sm:text-[34px] md:text-[48px]">
                 {pageData.hero.title}
               </h1>
 
-              <h2 className="mt-3 max-w-[620px] text-[24px] leading-[1.12] font-semibold tracking-[-0.03em] text-[#d8a741] sm:text-[30px] md:text-[44px]">
+              <h2 className="mt-3 max-w-[310px] text-[22px] leading-[1.08] font-semibold tracking-[-0.03em] text-[#d8a741] sm:max-w-[520px] sm:text-[26px] md:text-[38px]">
                 {pageData.hero.subtitle}
               </h2>
 
-              <p className="mt-5 max-w-[620px] text-[14px] leading-7 text-[#e5eef5] sm:text-[16px] md:text-[18px]">
+              <p className="mt-4 max-w-[330px] text-[14px] leading-[1.75] text-[#e5eef5] sm:max-w-[560px] sm:text-[15px] md:text-[16px]">
                 {pageData.hero.description}
               </p>
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <button className="flex h-11 items-center justify-center gap-2 rounded-[10px] bg-[#1f79b0] px-6 text-[14px] font-semibold transition hover:bg-[#186c9e] sm:h-12 sm:px-7 sm:text-[15px]">
+              <div className="mt-6 flex gap-3">
+                <button className="flex h-10 flex-1 items-center justify-center gap-2 rounded-[10px] bg-[#1f79b0] px-3 text-[13px] font-semibold transition hover:bg-[#186c9e] sm:h-11 sm:px-6 sm:text-[14px]">
                   {pageData.hero.actions[0]}
                   <ArrowRight className="h-4 w-4" />
                 </button>
-                <button className="flex h-11 items-center justify-center rounded-[10px] border border-[#2e84b7] px-6 text-[14px] font-semibold transition hover:bg-white/5 sm:h-12 sm:px-7 sm:text-[15px]">
+
+                <button className="flex h-10 flex-1 items-center justify-center rounded-[10px] border border-[#2e84b7] px-3 text-[13px] font-semibold transition hover:bg-white/5 sm:h-11 sm:px-6 sm:text-[14px]">
                   {pageData.hero.actions[1]}
                 </button>
               </div>
             </div>
 
             <div>
-              <div className="rounded-2xl border border-white/15 bg-white/10 p-5 md:p-6">
+              <div className="rounded-[20px] border border-white/15 bg-white/10 p-4 sm:p-5">
                 <p className="mb-3 flex gap-1 text-[#d3a43f]">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </p>
-                <p className="text-[15px] leading-7 italic sm:text-[17px]">
+
+                <p className="text-[13px] leading-[1.8] italic sm:text-[15px] sm:leading-6">
                   “{pageData.hero.quote}”
                 </p>
-                <p className="mt-4 text-[15px] font-semibold">
+
+                <p className="mt-3 text-[13px] font-semibold sm:text-[14px]">
                   — {pageData.hero.quoteAuthor}
                 </p>
               </div>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+              <div className="mt-4 grid grid-cols-3 gap-3">
                 {pageData.hero.stats.map((item) => (
                   <motion.div
                     key={item.label}
                     whileHover={{ y: -2 }}
-                    className="rounded-xl border border-white/15 bg-white/10 p-4"
+                    className="rounded-xl border border-white/15 bg-white/10 p-2.5 sm:p-3"
                   >
-                    <item.icon className="mb-2 h-5 w-5 text-[#d6a740]" />
-                    <p className="text-[19px] font-semibold text-[#d6a740]">
+                    <item.icon className="mb-1.5 h-4 w-4 text-[#d6a740] sm:h-5 sm:w-5" />
+                    <p className="text-[13px] font-semibold text-[#d6a740] sm:text-[16px]">
                       {item.label}
                     </p>
-                    <p className="mt-1 text-[11px] leading-5 text-[#c0d1de]">
+                    <p className="mt-1 text-[9px] leading-4 text-[#c0d1de] sm:text-[10px] sm:leading-4">
                       {item.sub}
                     </p>
                   </motion.div>
@@ -443,21 +547,26 @@ export default function App() {
         </section>
 
         {/* Trust Strip */}
-        <section className="border-y border-[#e4ebf1] bg-[#f6f9fb] py-5">
-          <div className="mx-auto flex gap-5 overflow-x-auto px-4 sm:px-6 lg:grid lg:max-w-[1280px] lg:grid-cols-4 lg:overflow-visible lg:px-8">
+        <section className="border-y border-[#e4ebf1] bg-[#f6f9fb] py-4">
+          <div
+            ref={trustStripRef}
+            className="trust-scroll mx-auto flex gap-4 overflow-x-auto px-4 [scrollbar-width:none] [-ms-overflow-style:none] snap-x snap-mandatory sm:px-6 lg:grid lg:max-w-[1280px] lg:grid-cols-4 lg:overflow-visible lg:px-8"
+          >
             {pageData.trustStrip.map((item) => (
               <div
                 key={item.title}
-                className="flex min-w-[220px] items-center gap-4 lg:min-w-0"
+                data-trust-card
+                className="flex min-w-[82%] snap-start items-center gap-3 rounded-[16px] border border-[#dbe6ef] bg-white px-3 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)] sm:min-w-[250px] lg:min-w-0 lg:rounded-none lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none"
               >
-                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#dfebf5] text-[#2d7ca8]">
-                  <item.icon className="h-6 w-6" />
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#dfebf5] text-[#2d7ca8]">
+                  <item.icon className="h-5 w-5" />
                 </div>
+
                 <div>
-                  <p className="text-[17px] font-semibold text-[#0f2533]">
+                  <p className="text-[14px] font-semibold text-[#0f2533] sm:text-[15px]">
                     {item.title}
                   </p>
-                  <p className="text-[12px] leading-5 text-[#748392]">
+                  <p className="text-[11px] leading-4 text-[#748392] sm:text-[12px] sm:leading-5">
                     {item.text}
                   </p>
                 </div>
@@ -469,44 +578,48 @@ export default function App() {
         {/* Shop by Category */}
         <motion.section
           {...fadeInUp}
-          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8"
         >
-          <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="mb-5 flex items-center justify-between gap-4">
             {sectionHeading("Shop by", "Category")}
-            <button className="h-10 rounded-full bg-[#1b6ea1] px-6 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
+            <button className="h-9 rounded-full bg-[#1b6ea1] px-5 text-[12px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[13px]">
               See All Products
             </button>
           </div>
 
           <div className="relative">
-            <button className="absolute left-[-14px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+            <button className="absolute left-[-14px] top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
               <ChevronLeft className="h-5 w-5" />
             </button>
 
-            <div className="flex gap-3 overflow-x-auto pb-3 sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-6">
+            <div
+              ref={categoriesRef}
+              className="category-scroll flex gap-3 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] snap-x snap-mandatory sm:grid sm:grid-cols-3 sm:overflow-visible sm:pb-0 lg:grid-cols-6"
+            >
               {pageData.categories.map((category) => (
                 <div
                   key={category.title}
-                  className={`min-w-[145px] rounded-[14px] border px-3 py-4 text-center transition sm:min-w-0 sm:px-4 sm:py-5 ${
+                  data-category-card
+                  className={`min-w-[132px] snap-start rounded-[12px] border px-3 py-3 text-center transition sm:min-w-0 sm:px-4 sm:py-4 ${
                     category.active
                       ? "border-[#2876a7] bg-[#edf4fa]"
                       : "border-[#d7e0e9] bg-white hover:border-[#2876a7]/40"
                   }`}
                 >
-                  <div className="mx-auto mb-3 grid h-[72px] w-[72px] place-items-center rounded-[12px] bg-[#f4f6f8] text-[#2f7ea9]">
-                    <category.icon className="h-7 w-7" />
+                  <div className="mx-auto mb-2.5 grid h-[62px] w-[62px] place-items-center rounded-[10px] bg-[#f4f6f8] text-[#2f7ea9]">
+                    <category.icon className="h-6 w-6" />
                   </div>
-                  <p className="text-[13px] font-medium text-[#1f6f9f]">
+                  <p className="text-[12px] font-medium text-[#1f6f9f] sm:text-[13px]">
                     {category.title}
                   </p>
-                  <p className="mt-1 text-[11px] text-[#8a98a6]">
+                  <p className="mt-1 text-[10px] text-[#8a98a6] sm:text-[11px]">
                     {category.count}
                   </p>
                 </div>
               ))}
             </div>
 
-            <button className="absolute right-[-14px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+            <button className="absolute right-[-14px] top-1/2 hidden h-10 w-10 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
               <ChevronRight className="h-5 w-5" />
             </button>
           </div>
@@ -515,7 +628,7 @@ export default function App() {
         {/* Quality Cards */}
         <motion.section
           {...fadeInUp}
-          className="mx-auto w-full max-w-[1280px] px-4 pb-8 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-[1280px] px-4 pb-6 sm:px-6 lg:px-8"
         >
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[
@@ -537,17 +650,17 @@ export default function App() {
             ].map((card) => (
               <div
                 key={card.title}
-                className="rounded-[18px] border border-[#d6e3ef] bg-white p-5 sm:p-6"
+                className="rounded-[16px] border border-[#d6e3ef] bg-white p-4 sm:p-5"
               >
-                <div className="mb-4 flex justify-end">
-                  <span className="rounded-md bg-[#edf6fd] px-3 py-[5px] text-[11px] font-medium text-[#12608E]">
+                <div className="mb-3 flex justify-end">
+                  <span className="rounded-md bg-[#edf6fd] px-3 py-[5px] text-[10px] font-medium text-[#12608E]">
                     {card.badge}
                   </span>
                 </div>
-                <p className="text-[22px] font-semibold text-[#d1a13f]">
+                <p className="text-[19px] font-semibold text-[#d1a13f] sm:text-[20px]">
                   {card.title}
                 </p>
-                <p className="mt-3 text-[13px] leading-6 text-[#7b8894]">
+                <p className="mt-2.5 text-[12px] leading-6 text-[#7b8894] sm:text-[13px]">
                   {card.text}
                 </p>
               </div>
@@ -558,11 +671,11 @@ export default function App() {
         {/* Best Selling Products */}
         <motion.section
           {...fadeInUp}
-          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8"
         >
-          <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="mb-5 flex items-center justify-between gap-4">
             {sectionHeading("Our Best", "Selling Products")}
-            <button className="h-10 rounded-full bg-[#1b6ea1] px-6 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
+            <button className="h-9 rounded-full bg-[#1b6ea1] px-5 text-[12px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[13px]">
               View All
             </button>
           </div>
@@ -575,66 +688,68 @@ export default function App() {
         </motion.section>
 
         {/* QR Section */}
-        <motion.section {...fadeInUp} className="py-12 sm:py-16">
+        <motion.section {...fadeInUp} className="py-10 sm:py-14">
           <div className="mx-auto grid w-full max-w-[1280px] items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
             <div>
-              <h3 className="max-w-[520px] text-[24px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[30px] md:text-[44px]">
+              <h3 className="max-w-[480px] text-[22px] leading-[1.2] font-semibold tracking-[-0.02em] sm:text-[28px] md:text-[38px]">
                 Scan <span className="text-[#d1a13f]">The QR Code</span> On Your
                 Vial Label
               </h3>
-              <p className="mt-5 max-w-[620px] text-[14px] leading-7 text-[#7b8894] sm:text-[16px]">
+              <p className="mt-4 max-w-[560px] text-[13px] leading-7 text-[#7b8894] sm:text-[15px]">
                 {pageData.qrSection.description}
               </p>
-              <button className="mt-6 flex h-10 items-center gap-2 rounded-full bg-[#1b6ea1] px-5 text-[13px] font-semibold text-white sm:h-11 sm:px-7 sm:text-[14px]">
+              <button className="mt-5 flex h-10 items-center gap-2 rounded-full bg-[#1b6ea1] px-5 text-[12px] font-semibold text-white sm:h-11 sm:px-7 sm:text-[13px]">
                 {pageData.qrSection.action}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="rounded-[20px] bg-[#f6f6f6] p-4 sm:p-6">
+            <div className="rounded-[18px] bg-[#f6f6f6] p-4 sm:p-5">
               <img
                 src={pageData.qrSection.image}
                 alt="QR code section"
-                className="mx-auto w-full max-w-[420px] sm:max-w-[470px]"
+                className="mx-auto w-full max-w-[380px] sm:max-w-[430px]"
               />
             </div>
           </div>
         </motion.section>
 
         {/* Trust Section */}
-        <motion.section {...fadeInUp} className="bg-[#eff4f7] py-14 sm:py-16">
+        <motion.section {...fadeInUp} className="bg-[#eff4f7] py-12 sm:py-14">
           <div className="mx-auto w-full max-w-[1280px] px-4 text-center sm:px-6 lg:px-8">
-            <div className="inline-flex rounded-full bg-[#f6eedc] px-5 py-2 text-sm font-medium text-[#d1a13f]">
+            <div className="inline-flex rounded-full bg-[#f6eedc] px-4 py-2 text-[12px] font-medium text-[#d1a13f] sm:text-[13px]">
               Premium Quality – 98%+ Purity Guaranteed
             </div>
 
-            <h3 className="mt-7 text-[26px] font-semibold leading-[1.15] tracking-[-0.03em] sm:text-[34px] md:text-[50px]">
+            <h3 className="mt-6 text-[24px] font-semibold leading-[1.15] tracking-[-0.03em] sm:text-[30px] md:text-[42px]">
               <span className="text-[#1b6ea1]">Verified. Transparent.</span>{" "}
               <span className="text-[#d1a13f]">Trusted.</span>
             </h3>
 
-            <p className="mx-auto mt-4 max-w-[720px] text-[14px] leading-7 text-[#0f2533] sm:text-[16px]">
+            <p className="mx-auto mt-3 max-w-[680px] text-[13px] leading-7 text-[#0f2533] sm:text-[15px]">
               Modern Aminos publishes full lab verification and batch
               traceability so you can research with confidence.
             </p>
 
-            <div className="mx-auto mt-8 grid max-w-[760px] gap-4 rounded-[16px] bg-[#0d4e79] p-5 text-left sm:mt-10 sm:p-6 sm:grid-cols-3">
+            <div className="mx-auto mt-7 grid max-w-[720px] gap-4 rounded-[16px] bg-[#0d4e79] p-4 text-left sm:mt-9 sm:grid-cols-3 sm:p-5">
               {[
                 { icon: FlaskConical, title: "500+", text: "COAs Published" },
                 { icon: Package, title: "50k+", text: "Orders Shipped" },
                 { icon: Star, title: "4.9/5", text: "Trustpilot Rating" },
               ].map((stat) => (
                 <div key={stat.title} className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-md bg-white/10 sm:h-11 sm:w-11">
+                  <div className="grid h-9 w-9 place-items-center rounded-md bg-white/10 sm:h-10 sm:w-10">
                     <stat.icon
-                      className={`h-5 w-5 ${stat.title === "4.9/5" ? "text-[#d1a13f]" : "text-white"}`}
+                      className={`h-4 w-4 ${
+                        stat.title === "4.9/5" ? "text-[#d1a13f]" : "text-white"
+                      }`}
                     />
                   </div>
                   <div>
-                    <p className="text-[19px] font-bold text-white sm:text-[22px]">
+                    <p className="text-[17px] font-bold text-white sm:text-[19px]">
                       {stat.title}
                     </p>
-                    <p className="text-[11px] text-white/75 sm:text-[12px]">
+                    <p className="text-[10px] text-white/75 sm:text-[11px]">
                       {stat.text}
                     </p>
                   </div>
@@ -642,34 +757,34 @@ export default function App() {
               ))}
             </div>
 
-            <button className="mx-auto mt-7 flex h-10 items-center gap-2 rounded-full bg-[#1b6ea1] px-6 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
+            <button className="mx-auto mt-6 flex h-10 items-center gap-2 rounded-full bg-[#1b6ea1] px-6 text-[12px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[13px]">
               Browse All Products
               <ArrowRight className="h-4 w-4" />
             </button>
 
-            <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-3">
+            <div className="mt-9 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-3">
               {pageData.testimonials.map((item) => (
                 <div
                   key={item.name}
-                  className="rounded-[16px] border border-[#dbe4ec] bg-white p-4 text-left sm:p-5"
+                  className="rounded-[16px] border border-[#dbe4ec] bg-white p-4 text-left"
                 >
-                  <div className="mb-4 flex gap-1 text-[#d1a13f]">
+                  <div className="mb-3 flex gap-1 text-[#d1a13f]">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="h-4 w-4 fill-current" />
                     ))}
                   </div>
-                  <p className="min-h-[100px] text-[12px] leading-6 italic text-[#687681] sm:min-h-[132px] sm:text-[14px] sm:leading-7">
+                  <p className="min-h-[88px] text-[11px] leading-6 italic text-[#687681] sm:min-h-[110px] sm:text-[13px] sm:leading-6">
                     “{item.quote}”
                   </p>
-                  <div className="mt-5 flex items-center gap-4">
-                    <div className="grid h-10 w-10 place-items-center rounded-full bg-[#eef4f8] text-[14px] font-semibold text-[#1b6ea1] sm:h-11 sm:w-11 sm:text-[16px]">
+                  <div className="mt-4 flex items-center gap-3">
+                    <div className="grid h-9 w-9 place-items-center rounded-full bg-[#eef4f8] text-[13px] font-semibold text-[#1b6ea1] sm:h-10 sm:w-10 sm:text-[14px]">
                       {item.initials}
                     </div>
                     <div>
-                      <p className="text-[13px] font-semibold text-[#1b6ea1] sm:text-[14px]">
+                      <p className="text-[12px] font-semibold text-[#1b6ea1] sm:text-[13px]">
                         {item.name}
                       </p>
-                      <p className="text-[11px] text-[#8a97a3] sm:text-[12px]">
+                      <p className="text-[10px] text-[#8a97a3] sm:text-[11px]">
                         {item.role}
                       </p>
                     </div>
@@ -678,8 +793,8 @@ export default function App() {
               ))}
             </div>
 
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-center text-[12px] sm:mt-8 sm:text-[14px]">
-              <Star className="h-5 w-5 fill-[#01BC78] text-[#01BC78]" />
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-2 text-center text-[11px] sm:mt-7 sm:text-[13px]">
+              <Star className="h-4 w-4 fill-[#01BC78] text-[#01BC78]" />
               <span className="font-semibold text-[#01BC78]">Trustpilot</span>
               <span className="font-semibold text-[#08202C]">4.9 / 5</span>
               <span className="font-semibold text-[#08202C]">
@@ -707,12 +822,12 @@ export default function App() {
           <motion.section
             key={section.highlight}
             {...fadeInUp}
-            className={`${section.bg} py-12 sm:py-14`}
+            className={`${section.bg} py-10 sm:py-12`}
           >
             <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
-              <div className="mb-6 flex items-center justify-between gap-4">
+              <div className="mb-5 flex items-center justify-between gap-4">
                 {sectionHeading(section.title, section.highlight)}
-                <button className="h-10 rounded-full bg-[#1b6ea1] px-6 text-[13px] font-semibold text-white sm:h-11 sm:px-8 sm:text-[14px]">
+                <button className="h-9 rounded-full bg-[#1b6ea1] px-5 text-[12px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[13px]">
                   View All
                 </button>
               </div>
@@ -729,11 +844,11 @@ export default function App() {
         {/* FAQ */}
         <motion.section
           {...fadeInUp}
-          className="mx-auto w-full max-w-[1280px] px-4 py-12 sm:px-6 lg:px-8"
+          className="mx-auto w-full max-w-[1280px] px-4 py-10 sm:px-6 lg:px-8"
         >
-          <div className="mb-6 flex items-center justify-between gap-4">
+          <div className="mb-5 flex items-center justify-between gap-4">
             {sectionHeading("Frequently", "Asked Questions")}
-            <button className="h-9 rounded-full bg-[#1b6ea1] px-6 text-[12px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[13px]">
+            <button className="h-9 rounded-full bg-[#1b6ea1] px-5 text-[11px] font-semibold text-white sm:h-10 sm:px-7 sm:text-[12px]">
               View All
             </button>
           </div>
@@ -745,7 +860,7 @@ export default function App() {
                 <div key={faq.question}>
                   <button
                     onClick={() => setFaqOpen(open ? -1 : index)}
-                    className={`flex min-h-[58px] w-full items-center justify-between rounded-[999px] px-5 text-left text-[14px] font-semibold transition sm:min-h-[64px] sm:px-6 sm:text-[15px] md:px-8 ${
+                    className={`flex min-h-[54px] w-full items-center justify-between rounded-[999px] px-4 text-left text-[13px] font-semibold transition sm:min-h-[60px] sm:px-6 sm:text-[14px] md:px-7 ${
                       open
                         ? "bg-[#1b6ea1] text-white"
                         : "bg-[#deebf5] text-[#23406d]"
@@ -753,14 +868,14 @@ export default function App() {
                   >
                     {faq.question}
                     {open ? (
-                      <span className="text-2xl">−</span>
+                      <span className="text-xl">−</span>
                     ) : (
                       <Plus className="h-4 w-4" />
                     )}
                   </button>
 
                   {open && (
-                    <div className="mt-2 rounded-2xl border border-[#d9e0e7] bg-white px-5 py-5 text-[13px] leading-7 text-[#607080] sm:px-6 sm:py-6 sm:text-[14px]">
+                    <div className="mt-2 rounded-2xl border border-[#d9e0e7] bg-white px-4 py-4 text-[12px] leading-6 text-[#607080] sm:px-6 sm:py-5 sm:text-[13px]">
                       {faq.answer}
                     </div>
                   )}
@@ -773,36 +888,36 @@ export default function App() {
 
       {/* Footer */}
       <footer className="bg-[#123F5A] text-white">
-        <div className="mx-auto w-full max-w-[1280px] px-4 pt-14 pb-12 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_1.2fr]">
+        <div className="mx-auto w-full max-w-[1280px] px-4 pb-10 pt-12 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr_1.2fr]">
             <div>
               <a href="#" className="inline-flex items-center">
                 <img
                   src="/logo.svg"
                   alt="Modern Aminos"
-                  className="w-[210px] brightness-0 invert md:w-[250px]"
+                  className="w-[190px] brightness-0 invert md:w-[220px]"
                 />
               </a>
-              <p className="mt-6 max-w-xs text-[14px] leading-7 text-white/95">
+              <p className="mt-5 max-w-xs text-[13px] leading-6 text-white/95">
                 Quality products and exceptional service are very important to
                 us
               </p>
             </div>
 
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-1">
               <div>
-                <p className="text-[21px] font-semibold">Contact Us</p>
-                <p className="mt-3 flex items-center gap-2 text-[14px] text-white/95">
+                <p className="text-[18px] font-semibold">Contact Us</p>
+                <p className="mt-3 flex items-center gap-2 text-[13px] text-white/95">
                   <Mail className="h-4 w-4" /> cs@modernaminos.com
                 </p>
               </div>
 
               <div>
-                <p className="text-[21px] font-semibold">Quick Links</p>
+                <p className="text-[18px] font-semibold">Quick Links</p>
                 {pageData.nav.map((item) => (
                   <p
                     key={item.label}
-                    className="mt-2 text-[14px] text-white/95"
+                    className="mt-2 text-[13px] text-white/95"
                   >
                     {item.label}
                   </p>
@@ -811,26 +926,26 @@ export default function App() {
             </div>
 
             <div>
-              <p className="text-[21px] font-semibold">
+              <p className="text-[18px] font-semibold">
                 Subscribe now to save 15%
               </p>
-              <p className="mt-3 max-w-[410px] text-[14px] leading-7 text-white/95">
+              <p className="mt-3 max-w-[410px] text-[13px] leading-6 text-white/95">
                 Subscribe and get exclusive updates straight to your inbox for
                 free
               </p>
-              <div className="mt-5 flex h-12 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9]">
+              <div className="mt-5 flex h-11 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9]">
                 <input
-                  className="w-full bg-transparent px-5 text-[14px] placeholder:text-[#aac4d6] focus:outline-none"
+                  className="w-full bg-transparent px-4 text-[13px] placeholder:text-[#aac4d6] focus:outline-none"
                   placeholder="Email"
                 />
-                <button className="flex items-center gap-2 bg-white px-6 text-[14px] font-semibold text-[#1a4360]">
+                <button className="flex items-center gap-2 bg-white px-5 text-[13px] font-semibold text-[#1a4360]">
                   <ArrowRight className="h-4 w-4" /> Send
                 </button>
               </div>
             </div>
           </div>
 
-          <p className="mx-auto mt-12 max-w-[1180px] text-center text-[13px] leading-8 text-white/90">
+          <p className="mx-auto mt-10 max-w-[1180px] text-center text-[12px] leading-7 text-white/90">
             Please be advised: All compounds and research materials provided by
             Modern Aminos are strictly for laboratory and research use only.
             They are not approved for human consumption by the Food and Drug
@@ -840,9 +955,9 @@ export default function App() {
             exclusively within a controlled and qualified research environment.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-between gap-6 text-[13px] text-white/90 lg:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-between gap-5 text-[12px] text-white/90 lg:flex-row">
             <p>Copyright 2026, All Rights Reserved.</p>
-            <div className="flex flex-wrap items-center justify-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-5">
               <a href="#">Privacy Policy</a>
               <a href="#">Refund Policy</a>
               <a href="#">Terms & Conditions</a>
@@ -856,9 +971,9 @@ export default function App() {
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.96 }}
-        className="fixed bottom-5 right-4 z-50 grid h-14 w-14 place-items-center rounded-full bg-[#0d669c] text-white shadow-[0_10px_24px_rgba(0,0,0,0.18)] sm:bottom-6 sm:right-6"
+        className="fixed bottom-5 right-4 z-50 grid h-13 w-13 place-items-center rounded-full bg-[#0d669c] text-white shadow-[0_10px_24px_rgba(0,0,0,0.18)] sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
       >
-        <ShoppingCart className="h-6 w-6" />
+        <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
         <span className="absolute -top-1 right-0 grid h-5 w-5 place-items-center rounded-full bg-black text-[10px]">
           0
         </span>
