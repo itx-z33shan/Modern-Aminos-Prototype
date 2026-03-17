@@ -28,11 +28,8 @@ import { useEffect, useRef, useState } from "react";
 const pageData = {
   nav: [
     { label: "Home", active: true },
-    { label: "Shop", hasArrow: true },
-    { label: "COA’s" },
-    { label: "FAQs" },
     { label: "Contact Us" },
-    { label: "My Account" },
+    
   ],
   hero: {
     badge: "Trusted by 10,000+ Researchers",
@@ -429,7 +426,13 @@ export default function App() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-2 sm:gap-3.5">
+          <div className="flex items-center gap-4 sm:gap-3.5">
+            <button className="flex items-center gap-1 text-[12px] font-medium text-[#1b6ea1] sm:text-[16px]">
+              USA <ChevronDown className="h-5 w-5" />
+            </button>
+            <button className="text-[#1b6ea1]">
+              <CircleUserRound className="h-5 w-5 sm:h-6 sm:w-6" />
+            </button>
             <button className="relative text-[#1b6ea1]">
               <ShoppingCart className="h-5 w-5 sm:h-6 sm:w-6" />
               <span className="absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full bg-red-600 text-[8px] text-white sm:h-5 sm:w-5 sm:text-[10px]">
@@ -437,16 +440,8 @@ export default function App() {
               </span>
             </button>
 
-            <button className="flex items-center gap-1 text-[12px] font-medium text-[#1b6ea1] sm:text-[13px]">
-              USA <ChevronDown className="h-4 w-4" />
-            </button>
-
             <button className="text-[#1b6ea1]">
               <Search className="h-5 w-5 sm:h-6 sm:w-6" />
-            </button>
-
-            <button className="text-[#1b6ea1]">
-              <CircleUserRound className="h-5 w-5 sm:h-6 sm:w-6" />
             </button>
 
             <button
@@ -488,7 +483,7 @@ export default function App() {
 
       <main>
         {/* Hero */}
-        <section className="bg-[#083553] py-7 text-[#ffffff] sm:py-10 md:py-14">
+        <section className="bg-[#002a4d] py-7 text-[#ffffff] sm:py-10 md:py-14">
           <motion.div
             {...fadeInUp}
             className="mx-auto grid w-full max-w-[1280px] gap-5 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
@@ -902,7 +897,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-[#123F5A] text-white">
+      <footer className="bg-[#113b54] text-white">
         <div className="mx-auto w-full max-w-[1280px] px-4 pb-10 pt-12 sm:px-6 lg:px-8">
           <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr_1.2fr]">
             <div>
@@ -922,8 +917,8 @@ export default function App() {
             <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-1">
               <div>
                 <p className="text-[18px] font-semibold">Contact Us</p>
-                <p className="mt-3 flex items-center gap-2 text-[13px] text-white/95">
-                  <Mail className="h-4 w-4" /> cs@modernaminos.com
+                <p className="mt-3 flex items-center gap-2 text-[13px] text-[#cc3366]">
+                  <Mail className="h-4 w-4 text-[#cc3366]" /> cs@modernaminos.com
                 </p>
               </div>
 
@@ -932,7 +927,7 @@ export default function App() {
                 {pageData.nav.map((item) => (
                   <p
                     key={item.label}
-                    className="mt-2 text-[13px] text-white/95"
+                    className="mt-2 text-[13px] text-[#cc3366]"
                   >
                     {item.label}
                   </p>
@@ -973,10 +968,18 @@ export default function App() {
           <div className="mt-8 flex flex-col items-center justify-between gap-5 text-[12px] text-white/90 lg:flex-row">
             <p>Copyright 2026, All Rights Reserved.</p>
             <div className="flex flex-wrap items-center justify-center gap-5">
-              <a href="#">Privacy Policy</a>
-              <a href="#">Refund Policy</a>
-              <a href="#">Terms & Conditions</a>
-              <a href="#">Terms of Service</a>
+              <a href="#" className="text-[#cc3366] hover:underline">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-[#cc3366] hover:underline">
+                Refund Policy
+              </a>
+              <a href="#" className="text-[#cc3366] hover:underline">
+                Terms & Conditions
+              </a>
+              <a href="#" className="text-[#cc3366] hover:underline">
+                Terms of Service
+              </a>
             </div>
           </div>
         </div>
