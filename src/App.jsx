@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Beaker,
   Brain,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   CircleUserRound,
@@ -24,9 +25,15 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-// @ts-ignore
 const pageData = {
-  nav: ["Home", "Shop", "COAs", "FAQs", "Contact Us", "My Account"],
+  nav: [
+    { label: "Home", active: true },
+    { label: "Shop", hasArrow: true },
+    { label: "COA’s" },
+    { label: "FAQs" },
+    { label: "Contact Us" },
+    { label: "My Account" },
+  ],
   hero: {
     badge: "Trusted by 10,000+ Researchers",
     title: "Premium Research Materials.",
@@ -44,10 +51,26 @@ const pageData = {
     ],
   },
   trustStrip: [
-    { title: "3rd Party Tested", text: "Every batch independently verified for purity and quality", icon: FlaskConical },
-    { title: "Fast Shipping", text: "Same-day shipping on orders before 12pm CST", icon: Truck },
-    { title: "Expert Support", text: "24/7 customer support from research specialists", icon: Mail },
-    { title: "Secure & Safe", text: "SSL encrypted checkout and discreet packaging", icon: ShieldCheck },
+    {
+      title: "3rd Party Tested",
+      text: "Every batch independently verified for purity and quality",
+      icon: FlaskConical,
+    },
+    {
+      title: "Fast Shipping",
+      text: "Same-day shipping on orders before 12pm CST",
+      icon: Truck,
+    },
+    {
+      title: "Expert Support",
+      text: "24/7 customer support from research specialists",
+      icon: Mail,
+    },
+    {
+      title: "Secure & Safe",
+      text: "SSL encrypted checkout and discreet packaging",
+      icon: ShieldCheck,
+    },
   ],
   categories: [
     { title: "Aminos", count: "16 Products", icon: TestTube },
@@ -58,22 +81,86 @@ const pageData = {
     { title: "Sarms", count: "14 Products", icon: Cuboid },
   ],
   products: [
-    { name: "Glow (GHK-CU, TB-500, BPC-157)", price: "$98.00–$124.00", action: "Select options", image: "/product1.webp" },
-    { name: "GLP/GIP/Glucagon (RT)", price: "$62.90–$411.40", action: "Select options", image: "/product2.webp" },
-    { name: "IGF-1 LR3 1MG", price: "$68.00", action: "Add to cart", image: "/product1.webp" },
-    { name: "L-Carnitine (20ML)", price: "$48.00", action: "Add to cart", image: "/product2.webp" },
+    {
+      name: "Glow (GHK-CU, TB-500, BPC-157)",
+      price: "$98.00–$124.00",
+      action: "Select options",
+      image: "/product1.webp",
+    },
+    {
+      name: "GLP/GIP/Glucagon (RT)",
+      price: "$62.90–$411.40",
+      action: "Select options",
+      image: "/product2.webp",
+    },
+    {
+      name: "IGF-1 LR3 1MG",
+      price: "$68.00",
+      action: "Add to cart",
+      image: "/product1.webp",
+    },
+    {
+      name: "L-Carnitine (20ML)",
+      price: "$48.00",
+      action: "Add to cart",
+      image: "/product2.webp",
+    },
   ],
   newArrivals: [
-    { name: "Cartalax 20MG", price: "$64.00", action: "Add to cart", image: "/product1.webp" },
-    { name: "CMS-121", price: "$58.00", action: "Add to cart", image: "/product2.webp" },
-    { name: "J-147", price: "$134.00", action: "Add to cart", image: "/product1.webp" },
-    { name: "L-THP", price: "$38.00", action: "Add to cart", image: "/product2.webp" },
+    {
+      name: "Cartalax 20MG",
+      price: "$64.00",
+      action: "Add to cart",
+      image: "/product1.webp",
+    },
+    {
+      name: "CMS-121",
+      price: "$58.00",
+      action: "Add to cart",
+      image: "/product2.webp",
+    },
+    {
+      name: "J-147",
+      price: "$134.00",
+      action: "Add to cart",
+      image: "/product1.webp",
+    },
+    {
+      name: "L-THP",
+      price: "$38.00",
+      action: "Add to cart",
+      image: "/product2.webp",
+    },
   ],
   comingSoon: [
-    { name: "BPAP", price: "$48.00", action: "Read more", image: "/product1.webp", outOfStock: true },
-    { name: "Orforgliperon", price: "$108.00", action: "Read more", image: "/product2.webp", outOfStock: true },
-    { name: "PRL-8-53", price: "$38.00", action: "Read more", image: "/product1.webp", outOfStock: true },
-    { name: "VILON 20MG", price: "$64.00", action: "Read more", image: "/product2.webp", outOfStock: true },
+    {
+      name: "BPAP",
+      price: "$48.00",
+      action: "Read more",
+      image: "/product1.webp",
+      outOfStock: true,
+    },
+    {
+      name: "Orforgliperon",
+      price: "$108.00",
+      action: "Read more",
+      image: "/product2.webp",
+      outOfStock: true,
+    },
+    {
+      name: "PRL-8-53",
+      price: "$38.00",
+      action: "Read more",
+      image: "/product1.webp",
+      outOfStock: true,
+    },
+    {
+      name: "VILON 20MG",
+      price: "$64.00",
+      action: "Read more",
+      image: "/product2.webp",
+      outOfStock: true,
+    },
   ],
   qrSection: {
     title: "Scan The QR Code On Your Vial Label",
@@ -83,15 +170,49 @@ const pageData = {
     image: "/QR.svg",
   },
   testimonials: [
-    { name: "Dr. Michael Chen", role: "Research Lab Director", initials: "DM", quote: "Switched from our previous vendor after purity issues. Modern Aminos COAs have matched our independent testing every single time. The consistency is unmatched." },
-    { name: "S. Kim", role: "Operations Manager", initials: "SK", quote: "Same-day shipping is a game changer for our clinic supply chain. We order Monday morning and have product by Wednesday. Lot traceability makes compliance easy." },
-    { name: "M. Torres", role: "Biochemistry Researcher", initials: "MT", quote: "The HPLC certificates give us full confidence in what we’re working with. Customer support actually understands the science. Rare in this space." },
+    {
+      name: "Dr. Michael Chen",
+      role: "Research Lab Director",
+      initials: "DM",
+      quote:
+        "Switched from our previous vendor after purity issues. Modern Aminos COAs have matched our independent testing every single time. The consistency is unmatched.",
+    },
+    {
+      name: "S. Kim",
+      role: "Operations Manager",
+      initials: "SK",
+      quote:
+        "Same-day shipping is a game changer for our clinic supply chain. We order Monday morning and have product by Wednesday. Lot traceability makes compliance easy.",
+    },
+    {
+      name: "M. Torres",
+      role: "Biochemistry Researcher",
+      initials: "MT",
+      quote:
+        "The HPLC certificates give us full confidence in what we’re working with. Customer support actually understands the science. Rare in this space.",
+    },
   ],
   faqs: [
-    { question: "How long do orders take to ship?", answer: "We typically aim to ship orders within 1–2 business days. We do not ship on weekends. During high-volume periods, shipping may extend by an additional day or two.", open: true },
-    { question: "Do you ship internationally or only in the US?", answer: "We support the USA and EU through separate storefronts depending on fulfillment requirements.", open: false },
-    { question: "What payment methods do you accept?", answer: "We support multiple checkout options. Final availability may vary by region and order type.", open: false },
-    { question: 'Why are your products labeled "Not for Human Consumption"?', answer: "Products are intended strictly for laboratory and research use in qualified environments.", open: false },
+    {
+      question: "How long do orders take to ship?",
+      answer:
+        "We typically aim to ship orders within 1–2 business days. We do not ship on weekends. During high-volume periods, shipping may extend by an additional day or two.",
+    },
+    {
+      question: "Do you ship internationally or only in the US?",
+      answer:
+        "We support the USA and EU through separate storefronts depending on fulfillment requirements.",
+    },
+    {
+      question: "What payment methods do you accept?",
+      answer:
+        "We support multiple checkout options. Final availability may vary by region and order type.",
+    },
+    {
+      question: 'Why are your products labeled "Not for Human Consumption"?',
+      answer:
+        "Products are intended strictly for laboratory and research use in qualified environments.",
+    },
   ],
 };
 
@@ -101,14 +222,12 @@ const fadeInUp = {
   viewport: { once: true, amount: 0.18 },
 };
 
-// @ts-ignore
 const sectionHeading = (before, highlight) => (
   <h3 className="text-[22px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0e2433] sm:text-[26px] md:text-[42px]">
     {before} <span className="text-[#1b6ea1]">{highlight}</span>
   </h3>
 );
 
-// @ts-ignore
 function CardButton({ label }) {
   return (
     <button className="mt-3 flex h-10 w-full items-center justify-center gap-2 rounded-full border border-[#2f7eaa] text-[13px] font-medium text-[#2f7eaa] transition hover:bg-[#2f7eaa] hover:text-white sm:mt-4 sm:text-[14px]">
@@ -117,7 +236,6 @@ function CardButton({ label }) {
   );
 }
 
-// @ts-ignore
 function ProductCard({ product }) {
   return (
     <motion.article
@@ -157,54 +275,62 @@ export default function App() {
 
   return (
     <div className="bg-white text-[#0f2533]">
-      {/* Top Warning Banner */}
-      <div className="bg-[#0b2a4a] py-1.5 text-center text-[12px] text-white">
+      {/* Top blue notice bar */}
+      <div className="bg-[#18689a] py-2 text-center text-[12px] font-medium text-white sm:text-[13px] md:text-[15px]">
         For laboratory research use only. Not for human consumption.
       </div>
 
-      {/* Main Navbar */}
+      {/* Navbar */}
       <header className="border-b border-[#e7edf3] bg-white">
-        <div className="mx-auto flex h-[72px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[78px] sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[74px] w-full max-w-[1280px] items-center justify-between px-4 sm:h-[84px] sm:px-6 lg:px-8">
           <a href="#" className="flex items-center">
             <img
               src="/logo.svg"
               alt="Modern Aminos"
-              className="h-auto w-[170px] sm:w-[200px] md:w-[240px]"
+              className="h-auto w-[165px] sm:w-[210px] md:w-[260px]"
             />
           </a>
 
-          <nav className="hidden items-center gap-7 text-[15px] font-medium text-[#122d3f] md:flex">
+          <nav className="hidden items-center gap-8 text-[15px] font-medium text-[#0f2533] lg:flex">
             {pageData.nav.map((item) => (
-              <a key={item} href="#" className="transition-colors hover:text-[#1b6ea1]">
-                {item}
+              <a
+                key={item.label}
+                href="#"
+                className={`flex items-center gap-1 transition-colors hover:text-[#1b6ea1] ${
+                  item.active
+                    ? "rounded-full bg-[#e8f1f8] px-4 py-3 text-[#1b6ea1]"
+                    : ""
+                }`}
+              >
+                {item.label}
+                {item.hasArrow && <ChevronDown className="h-4 w-4" />}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden items-center gap-2 text-sm font-medium text-[#1b6ea1] sm:flex">
-              <span>USA</span>
-              <span>🇺🇸</span>
-            </div>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <button className="hidden items-center gap-1 text-[14px] font-medium text-[#1b6ea1] sm:flex">
+              USA <ChevronDown className="h-4 w-4" />
+            </button>
 
-            <button className="text-[#2e7ca8]">
+            <button className="text-[#1b6ea1]">
               <CircleUserRound className="h-6 w-6" />
             </button>
 
-            <button className="text-[#2e7ca8]">
-              <Search className="h-6 w-6" />
-            </button>
-
-            <button className="relative text-[#2e7ca8]">
+            <button className="relative text-[#1b6ea1]">
               <ShoppingCart className="h-6 w-6" />
-              <span className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-black text-[10px] text-white">
+              <span className="absolute -top-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-red-600 text-[10px] text-white">
                 0
               </span>
             </button>
 
+            <button className="hidden text-[#1b6ea1] sm:block">
+              <Search className="h-6 w-6" />
+            </button>
+
             <button
               onClick={() => setMobileMenu(true)}
-              className="text-[#2e7ca8] md:hidden"
+              className="text-[#1b6ea1] lg:hidden"
             >
               <Menu className="h-6 w-6" />
             </button>
@@ -212,16 +338,26 @@ export default function App() {
         </div>
       </header>
 
+      {/* Mobile menu */}
       {mobileMenu && (
-        <div className="fixed inset-0 z-50 bg-black/50 md:hidden">
-          <div className="absolute right-0 top-0 h-full w-[85%] bg-white p-6 shadow-2xl">
-            <button onClick={() => setMobileMenu(false)} className="mb-8">
-              <X className="h-7 w-7" />
-            </button>
-            <div className="space-y-6 text-[17px] font-medium">
+        <div className="fixed inset-0 z-50 bg-black/40 lg:hidden">
+          <div className="absolute right-0 top-0 h-full w-[82%] bg-white p-6 shadow-2xl">
+            <div className="mb-10 flex items-center justify-between">
+              <img src="/logo.svg" alt="Modern Aminos" className="w-[170px]" />
+              <button onClick={() => setMobileMenu(false)}>
+                <X className="h-6 w-6 text-[#0f2533]" />
+              </button>
+            </div>
+
+            <div className="space-y-6 text-[16px] font-medium">
               {pageData.nav.map((item) => (
-                <a key={item} href="#" className="block" onClick={() => setMobileMenu(false)}>
-                  {item}
+                <a
+                  key={item.label}
+                  href="#"
+                  className="block text-[#122d3f]"
+                  onClick={() => setMobileMenu(false)}
+                >
+                  {item.label}
                 </a>
               ))}
             </div>
@@ -237,7 +373,7 @@ export default function App() {
             className="mx-auto grid w-full max-w-[1280px] gap-8 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8"
           >
             <div>
-              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[12px] font-medium text-white">
+              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-[12px] font-medium text-white sm:mb-5 sm:text-[13px]">
                 <Star className="h-4 w-4 fill-[#d5a73f] text-[#d5a73f]" />
                 {pageData.hero.badge}
               </p>
@@ -246,7 +382,7 @@ export default function App() {
                 {pageData.hero.title}
               </h1>
 
-              <h2 className="mt-2 max-w-[620px] text-[24px] leading-[1.12] font-semibold tracking-[-0.03em] text-[#d8a741] sm:text-[30px] md:text-[44px]">
+              <h2 className="mt-3 max-w-[620px] text-[24px] leading-[1.12] font-semibold tracking-[-0.03em] text-[#d8a741] sm:text-[30px] md:text-[44px]">
                 {pageData.hero.subtitle}
               </h2>
 
@@ -279,8 +415,7 @@ export default function App() {
               </div>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-3">
-// @ts-ignore
-{pageData.hero.stats.map((item) => (
+                {pageData.hero.stats.map((item) => (
                   <motion.div
                     key={item.label}
                     whileHover={{ y: -2 }}
@@ -298,10 +433,9 @@ export default function App() {
 
         {/* Trust Strip */}
         <section className="border-y border-[#e4ebf1] bg-[#f6f9fb] py-5">
-          <div className="mx-auto grid w-full max-w-[1280px] gap-5 px-4 sm:px-6 md:grid-cols-2 xl:grid-cols-4 lg:px-8">
-// @ts-ignore
-{pageData.trustStrip.map((item) => (
-              <div key={item.title} className="flex items-center gap-4">
+          <div className="mx-auto flex gap-5 overflow-x-auto px-4 sm:px-6 lg:grid lg:max-w-[1280px] lg:grid-cols-4 lg:overflow-visible lg:px-8">
+            {pageData.trustStrip.map((item) => (
+              <div key={item.title} className="flex min-w-[220px] items-center gap-4 lg:min-w-0">
                 <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[#dfebf5] text-[#2d7ca8]">
                   <item.icon className="h-6 w-6" />
                 </div>
@@ -323,24 +457,33 @@ export default function App() {
             </button>
           </div>
 
-          <div className="flex gap-3 overflow-x-auto pb-4 sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-6">
-// @ts-ignore
-{pageData.categories.map((category) => (
-              <div
-                key={category.title}
-                className={`min-w-[145px] rounded-[14px] border px-3 py-4 text-center transition sm:min-w-0 sm:px-4 sm:py-5 ${
-                  category.active
-                    ? "border-[#2876a7] bg-[#edf4fa]"
-                    : "border-[#d7e0e9] bg-white hover:border-[#2876a7]/40"
-                }`}
-              >
-                <div className="mx-auto mb-3 grid h-[72px] w-[72px] place-items-center rounded-[12px] bg-[#f4f6f8] text-[#2f7ea9]">
-                  <category.icon className="h-7 w-7" />
+          <div className="relative">
+            <button className="absolute left-[-14px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            <div className="flex gap-3 overflow-x-auto pb-3 sm:grid sm:grid-cols-3 sm:overflow-visible lg:grid-cols-6">
+              {pageData.categories.map((category) => (
+                <div
+                  key={category.title}
+                  className={`min-w-[145px] rounded-[14px] border px-3 py-4 text-center transition sm:min-w-0 sm:px-4 sm:py-5 ${
+                    category.active
+                      ? "border-[#2876a7] bg-[#edf4fa]"
+                      : "border-[#d7e0e9] bg-white hover:border-[#2876a7]/40"
+                  }`}
+                >
+                  <div className="mx-auto mb-3 grid h-[72px] w-[72px] place-items-center rounded-[12px] bg-[#f4f6f8] text-[#2f7ea9]">
+                    <category.icon className="h-7 w-7" />
+                  </div>
+                  <p className="text-[13px] font-medium text-[#1f6f9f]">{category.title}</p>
+                  <p className="mt-1 text-[11px] text-[#8a98a6]">{category.count}</p>
                 </div>
-                <p className="text-[13px] font-medium text-[#1f6f9f]">{category.title}</p>
-                <p className="mt-1 text-[11px] text-[#8a98a6]">{category.count}</p>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <button className="absolute right-[-14px] top-1/2 hidden h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-[#d8e8f4] text-[#1b6ea1] lg:grid">
+              <ChevronRight className="h-5 w-5" />
+            </button>
           </div>
         </motion.section>
 
@@ -445,10 +588,44 @@ export default function App() {
               Browse All Products
               <ArrowRight className="h-4 w-4" />
             </button>
+
+            <div className="mt-10 grid gap-4 sm:mt-12 sm:gap-5 lg:grid-cols-3">
+              {pageData.testimonials.map((item) => (
+                <div
+                  key={item.name}
+                  className="rounded-[16px] border border-[#dbe4ec] bg-white p-4 text-left sm:p-5"
+                >
+                  <div className="mb-4 flex gap-1 text-[#d1a13f]">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 fill-current" />
+                    ))}
+                  </div>
+                  <p className="min-h-[100px] text-[12px] leading-6 italic text-[#687681] sm:min-h-[132px] sm:text-[14px] sm:leading-7">
+                    “{item.quote}”
+                  </p>
+                  <div className="mt-5 flex items-center gap-4">
+                    <div className="grid h-10 w-10 place-items-center rounded-full bg-[#eef4f8] text-[14px] font-semibold text-[#1b6ea1] sm:h-11 sm:w-11 sm:text-[16px]">
+                      {item.initials}
+                    </div>
+                    <div>
+                      <p className="text-[13px] font-semibold text-[#1b6ea1] sm:text-[14px]">{item.name}</p>
+                      <p className="text-[11px] text-[#8a97a3] sm:text-[12px]">{item.role}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-2 text-center text-[12px] sm:mt-8 sm:text-[14px]">
+              <Star className="h-5 w-5 fill-[#01BC78] text-[#01BC78]" />
+              <span className="font-semibold text-[#01BC78]">Trustpilot</span>
+              <span className="font-semibold text-[#08202C]">4.9 / 5</span>
+              <span className="font-semibold text-[#08202C]">- 1000+ Verified Reviews</span>
+            </div>
           </div>
         </motion.section>
 
-        {/* New Arrivals & Coming Soon */}
+        {/* New Arrivals + Coming Soon */}
         {[
           { title: "New", highlight: "Arrivals", items: pageData.newArrivals, bg: "bg-white" },
           { title: "Coming", highlight: "Soon", items: pageData.comingSoon, bg: "bg-[#f1f7fa]" },
@@ -511,6 +688,7 @@ export default function App() {
         </motion.section>
       </main>
 
+      {/* Footer */}
       <footer className="bg-[#123F5A] text-white">
         <div className="mx-auto w-full max-w-[1280px] px-4 pt-14 pb-12 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr_1.2fr]">
@@ -538,8 +716,8 @@ export default function App() {
               <div>
                 <p className="text-[21px] font-semibold">Quick Links</p>
                 {pageData.nav.map((item) => (
-                  <p key={item} className="mt-2 text-[14px] text-white/95">
-                    {item}
+                  <p key={item.label} className="mt-2 text-[14px] text-white/95">
+                    {item.label}
                   </p>
                 ))}
               </div>
@@ -550,7 +728,7 @@ export default function App() {
               <p className="mt-3 max-w-[410px] text-[14px] leading-7 text-white/95">
                 Subscribe and get exclusive updates straight to your inbox for free
               </p>
-              <div className="mt-5 flex h-12 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9] sm:h-13">
+              <div className="mt-5 flex h-12 max-w-[470px] overflow-hidden rounded-full border border-[#8bb0c9]">
                 <input
                   className="w-full bg-transparent px-5 text-[14px] placeholder:text-[#aac4d6] focus:outline-none"
                   placeholder="Email"
@@ -578,6 +756,7 @@ export default function App() {
         </div>
       </footer>
 
+      {/* Floating cart */}
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.96 }}
